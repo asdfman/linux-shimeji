@@ -9,8 +9,8 @@
   </target>
   
   <target name="compile" depends="clean">
-    <mkdir dir="Classes" />
-    <javac destdir="Classes" target="6" optimize="yes" encoding="UTF-8" includeantruntime="false">
+    <mkdir dir="classes" />
+    <javac destdir="classes" target="6" optimize="yes" encoding="UTF-8" includeantruntime="false">
       <src path="src"/>
       <src path="src_generic"/>
       <src path="src_x11"/>

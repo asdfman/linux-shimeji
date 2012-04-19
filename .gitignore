@@ -1,3 +1,4 @@
+.gitignore
 *.lock
 *.swp
 *.out
