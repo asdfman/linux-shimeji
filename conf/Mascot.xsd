@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.group-finity.com/Mascot" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.group-finity.com/Mascot">
+
+    <element name="マスコット" type="tns:マスコット" />
+
+    <complexType name="マスコット">
+    	<sequence>
+    		<element name="定数" type="tns:定数" maxOccurs="unbounded" minOccurs="0" />
+    		<element name="動作リスト" type="tns:動作リスト" maxOccurs="unbounded" minOccurs="0" />
+    		<element name="行動リスト" type="tns:行動リスト" maxOccurs="unbounded" minOccurs="0" />
+    	</sequence>
+    </complexType>
+
+    <complexType name="定数">
+  		<attribute name="名前" type="string" />
+  		<attribute name="値" type="string" />
+    </complexType>
+
+    <complexType name="動作リスト">
+    	<choice maxOccurs="unbounded" minOccurs="0" >
+    		<element name="動作" type="tns:最上位動作" />
+    	</choice>
+    </complexType>
+
+    <complexType name="動作引数" abstract="true">
+  		<attribute name="条件" type="tns:パラメータ" />
+  		<attribute name="長さ" type="tns:パラメータ" />
+   		<attribute name="目的地X" type="tns:パラメータ" />
+  		<attribute name="目的地Y" type="tns:パラメータ" />
+   		<attribute name="初速X" type="tns:パラメータ" />
+  		<attribute name="初速Y" type="tns:パラメータ" />
+  		<attribute name="X" type="tns:パラメータ" />
+  		<attribute name="Y" type="tns:パラメータ" />
+  		<attribute name="右向き" type="tns:パラメータ" />
+   		<attribute name="IEの端X" type="tns:パラメータ" />
+  		<attribute name="IEの端Y" type="tns:パラメータ" />
+  		<attribute name="ずれ" type="tns:パラメータ" />
+  		<attribute name="生まれる場所X" type="tns:パラメータ" />
+  		<attribute name="生まれる場所Y" type="tns:パラメータ" />
+  		<attribute name="生まれた時の行動" type="tns:パラメータ" />
+   		<attribute name="速度" type="tns:パラメータ" />
+   		<attribute name="空気抵抗X" type="tns:パラメータ" />
+  		<attribute name="空気抵抗Y" type="tns:パラメータ" />
+   		<attribute name="重力" type="tns:パラメータ" />
+    </complexType>
+
+    <complexType name="動作">
+	    <complexContent>
+	    	<extension base="tns:動作引数">
+				<choice>
+					<element name="アニメーション" type="tns:アニメーション" maxOccurs="unbounded" minOccurs="0" />
+					<sequence>
+						<choice maxOccurs="unbounded" minOccurs="0" >
+							<element name="動作参照" type="tns:動作参照"/>
+							<element name="動作" type="tns:下位動作" />
+						</choice>
+					</sequence>
+				</choice>
+		   		<attribute name="種類" use="required">
+		    		<simpleType>
+		    			<restriction base="string">
+		    				<enumeration value="組み込み"></enumeration>
+		    				<enumeration value="移動"></enumeration>
+		    				<enumeration value="静止"></enumeration>
+		    				<enumeration value="固定"></enumeration>
+		    				<enumeration value="複合"></enumeration>
+		    				<enumeration value="選択"></enumeration>
+		    			</restriction>
+		    		</simpleType>
+		   		</attribute>
+		   		<attribute name="クラス">
+		   			<simpleType>
+		   				<restriction base="string">
+		   					<pattern value="com\.group_finity\.mascot\.action\.[a-zA-Z][a-zA-Z0-9]+" />
+		   				</restriction>
+		   			</simpleType>
+		   		</attribute>
+		    	<attribute name="枠">
+		    		<simpleType>
+		    			<restriction base="string">
+		    				<enumeration value="地面"></enumeration>
+		    				<enumeration value="壁"></enumeration>
+		    				<enumeration value="天井"></enumeration>
+		    			</restriction>
+		    		</simpleType>
+		    	</attribute>
+		    	<attribute name="繰り返し" type="tns:パラメータ" />
+	    	</extension>
+	    </complexContent>
+    </complexType>
+
+    <complexType name="最上位動作">
+    	<complexContent>
+    		<extension base="tns:動作">
+		    	<attribute name="名前" type="string" use="required" />
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="下位動作">
+    	<complexContent>
+    		<extension base="tns:動作" />
+    	</complexContent>
+    </complexType>
+
+    <complexType name="アニメーション">
+    	<sequence>
+    		<element name="ポーズ" type="tns:ポーズ" maxOccurs="unbounded" minOccurs="1" />
+    	</sequence>
+    	<attribute name="条件" type="string" />
+    </complexType>
+
+    <complexType name="ポーズ">
+   		<attribute name="画像" use="required">
+   			<simpleType>
+   				<restriction base="string">
+   					<pattern value=".+\.(png|gif|jpeg|jpg|bmp|PNG|GIF|JPEG|JPG|BMP)" />
+   				</restriction>
+   			</simpleType>
+   		</attribute>
+   		<attribute name="基準座標" use="required">
+   			<simpleType>
+   				<restriction base="string">
+   					<pattern value="-?\d+,-?\d+" />
+   				</restriction>
+   			</simpleType>
+   		</attribute>
+   		<attribute name="移動速度" use="required">
+   			<simpleType>
+   				<restriction base="string">
+   					<pattern value="-?\d+,-?\d+" />
+   				</restriction>
+   			</simpleType>
+   		</attribute>
+   		<attribute name="長さ" type="int" use="required" />
+    </complexType>
+
+    <complexType name="動作参照">
+    	<complexContent>
+ 			<extension base="tns:動作引数">
+  				<attribute name="名前" type="string" use="required" />
+ 			</extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="行動リスト">
+	    <sequence>
+	    	<choice maxOccurs="unbounded" minOccurs="1" >
+		    	<element name="行動" type="tns:行動" />
+		    	<element name="条件" type="tns:行動条件" />
+	    	</choice>
+	    </sequence>
+    </complexType>
+
+    <complexType name="行動">
+	    <sequence>
+	    	<choice maxOccurs="1" minOccurs="0" >
+		    	<element name="次の行動リスト" type="tns:次の行動リスト" />
+	    	</choice>
+	    </sequence>
+  		<attribute name="名前" type="string" use="required" />
+  		<attribute name="頻度" type="int" use="required" />
+  		<attribute name="条件" type="tns:パラメータ" />
+    </complexType>
+
+    <complexType name="次の行動リスト">
+	    <sequence>
+	    	<choice maxOccurs="unbounded" minOccurs="1" >
+		    	<element name="行動参照" type="tns:行動参照" />
+		    	<element name="条件" type="tns:行動参照条件" />
+	    	</choice>
+	    </sequence>
+	    <attribute name="追加" type="boolean" use="required" />
+    </complexType>
+
+    <complexType name="行動参照条件">
+    	<complexContent>
+    		<extension base="tns:次の行動リスト">
+    			<attribute name="条件" type="string" />
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="行動参照">
+  		<attribute name="名前" type="string" use="required" />
+  		<attribute name="頻度" type="int" use="required" />
+  		<attribute name="条件" type="tns:パラメータ" />
+    </complexType>
+
+    <complexType name="行動条件">
+    	<complexContent>
+    		<extension base="tns:行動リスト">
+    			<attribute name="条件" type="tns:パラメータ" />
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+    <simpleType name="パラメータ">
+    	<restriction base="string">
+    		<pattern value="([$#]\{.+\})|(\-?[0-9]+(\.[0-9]+)?)|true|false" />
+    	</restriction>
+    </simpleType>
+
+</schema>

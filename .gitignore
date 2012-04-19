@@ -1,0 +1,7 @@
+*.lock
+*.swp
+*.out
+*.class
+*.log
+bin/
+

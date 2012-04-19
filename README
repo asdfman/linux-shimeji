@@ -1,0 +1,52 @@
+Shimeji for Linux 
+
+This git repo is intended for the sole purpose of distribution for now. Don't expect version numbers and changelogs until I've implemented all basic functionality. 
+
+I appreciate any bug reports, preferred way is to contact me on IRC (Rizon) where I am called 'asdfman'
+
+-----------------------------------------------------------------
+
+1. REQUIREMENTS
+
+A compositing manager, Compton is highly recommended. Turn off window shadows or find a way to exclude the Shimeji windows or you'll end up with a shadow box surrounding every mascot.
+
+Tested with both OpenJDK 6 and SunJDK 6 JRE's. There were some issues on Gnome and KDE when using OpenJDK, if you experience them the only solution I can offer for now is using Sun JRE, should solve all problems.
+
+
+2. USAGE
+
+Obtain the repository :
+git clone https://github.com/asdfman666/linux-shimeji.git OR download a zip archive on the github page
+
+To run, execute launch.sh in the project root directory.
+
+To build, feel the need to build the project, just type 'ant' in the project root directory.
+
+Note that the program comes pre-compiled and you do not need to build unless you plan to modify the source.
+
+
+3. CONFIGURATION 
+
+For now the only runtime configuration you can do is :
+
+window.conf - set window dimensions to match your window decorations. If you're using a plain WM with no decorations, zero on all values or an empty file should be accurate
+
+titles.conf - enter window titles, one per line, case sensitive. The Mascots will interact with these windows only. If no window titles are specified, all windows will be interacted with. Most WM's draw invisible windows for UI elements so it is recommended to use the config file.
+
+For more information refer to the configuration files. 
+
+
+4. OBTAINING MORE SHIMEJIS
+
+For now it's best if you use Shimejis with the default Actions.xml/Behavior.xml (46 images in the img folder all but guaranteed a default Shimeji). This covers the vast majority of Shimejis available on pixiv.net (tag : しめじ). You can try using heavily customized, they will most likely work, you'll just lose some functionality. A guide on converting any action/behavior file to support this version may or may not come later.
+
+Note on why they do not work : This version has simultaneous multiple window interaction unlike the original, which is limited to one window at a time (mascots will fall off it as soon as you unfocus). The config files needed to to be modified to add checks for all active windows so that the mascot can keep track of it's environment. This only affects the action selection so if you break the config files, the mascots will either stay still and wait when no action is available. 
+
+I'll emphasize one last time that most Shimejis you'll find on Pixiv are 46-image default config ones. 
+
+
+5. LICENSE
+
+Licenses are too deep for me. This project inherits the license of the original program (www.group-finity.com/Shimeji)
+
+The included Shimeji was obtained from http://www.pixiv.net/member_illust.php?mode=medium&illust_id=26401063 all credits to the original author
