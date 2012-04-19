@@ -67,10 +67,8 @@
 		<!-- 壁に接しているとき -->
 		<条件
 			条件="#{ mascot.lookRight ? (
-					mascot.environment.workArea.rightBorder.isOn(mascot.anchor) ||
-					mascot.curIE.rightBorder.isOn(mascot.anchor) ) : (
-					mascot.environment.workArea.leftBorder.isOn(mascot.anchor) ||
-					mascot.curIE.leftBorder.isOn(mascot.anchor) ) }">
+					mascot.environment.workArea.rightBorder.isOn(mascot.anchor)) : (
+					mascot.environment.workArea.leftBorder.isOn(mascot.anchor))}">
 			<行動 名前="壁に掴まってボーっとする" 頻度="100" />
 			<行動 名前="壁から落ちる" 頻度="50"
 				条件="${!mascot.environment.floor.isOn(mascot.anchor)}" />
@@ -102,19 +100,17 @@
 			<行動 名前="走ってワークエリアの下辺の右の端っこで座る" 頻度="100" />
 			<行動 名前="走ってワークエリアの下辺から左の壁によじのぼる" 頻度="100" />
 			<行動 名前="走ってワークエリアの下辺から右の壁によじのぼる" 頻度="100" />
-			<行動 名前="IEの下に飛びつく" 頻度="250"
-				条件="#{mascot.anchor.x &gt;= mascot.environment.activeIE.left-400 &amp;&amp;
-				mascot.anchor.x &lt; mascot.environment.activeIE.right+400}" />
+			<行動 名前="IEの下に飛びつく" 頻度="150"
+				条件="#{mascot.anchor.x &gt;= mascot.environment.activeIE.left-200 &amp;&amp;
+				mascot.anchor.x &lt; mascot.environment.activeIE.right+200}" />
 
 			<行動 名前="引っこ抜く" 頻度="150" 条件="#{mascot.totalCount &lt; maxCount}" />
 		</条件>
 
 		<!-- ワークエリアの壁に接しているとき -->
 		<条件
-			条件="#{mascot.lookRight ? (mascot.environment.workArea.rightBorder.isOn(mascot.anchor) ||
-					mascot.curIE.leftBorder.isOn(mascot.anchor)) : (
-					mascot.environment.workArea.leftBorder.isOn(mascot.anchor) ||
-					mascot.curIE.rightBorder.isOn(mascot.anchor))}">
+			条件="#{mascot.lookRight ? (mascot.environment.workArea.rightBorder.isOn(mascot.anchor)) : (
+					mascot.environment.workArea.leftBorder.isOn(mascot.anchor))}">
 			<行動 名前="ワークエリアの壁を途中まで登る" 頻度="100" />
 			<行動 名前="ワークエリアの壁を登る" 頻度="100" />
 		</条件>
@@ -171,10 +167,10 @@
 
 		<!-- IEが見えるとき -->
 		<条件 条件="#{mascot.environment.activeIE.visible}">
-			<行動 名前="IEの左に飛びつく" 頻度="100"
+			<行動 名前="IEの左に飛びつく" 頻度="125"
 				条件="#{mascot.anchor.x &lt; mascot.environment.activeIE.left &amp;&amp;
 				Math.abs(mascot.environment.activeIE.bottom-mascot.anchor.y) &lt;(mascot.environment.activeIE.height/4)}" />
-			<行動 名前="IEの右に飛びつく" 頻度="100"
+			<行動 名前="IEの右に飛びつく" 頻度="125"
 				条件="#{mascot.anchor.x &gt; mascot.environment.activeIE.right &amp;&amp;
 				Math.abs(mascot.environment.activeIE.bottom-mascot.anchor.y) &lt;(mascot.environment.activeIE.height/4)}" />
 
