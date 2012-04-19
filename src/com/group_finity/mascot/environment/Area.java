@@ -1,6 +1,9 @@
 package com.group_finity.mascot.environment;
 
 import java.awt.Rectangle;
+import java.util.Hashtable;
+import com.group_finity.mascot.Mascot;
+import java.util.Iterator;
 
 public class Area {
 
@@ -29,6 +32,20 @@ public class Area {
 	private final Wall rightBorder = new Wall(this, true);
 
 	private final FloorCeiling bottomBorder = new FloorCeiling(this, true);
+
+	private Hashtable<Number,Mascot> mascotsOnWindow = new Hashtable<Number,Mascot>();
+
+	private final long windowID;
+
+	private boolean hasMoved;
+
+	public Area(long id) {
+		this.windowID = id;
+	}
+
+	public Area() {
+		this.windowID = 0;
+	}
 
 	public boolean isVisible() {
 		return this.visible;
@@ -152,5 +169,28 @@ public class Area {
 	public String toString() {
 		return "Area [left=" + left + ", top=" + top + ", right=" + right + ", bottom=" + bottom + "]";
 	}
+
+	public void addMascot(Mascot m) {
+		this.mascotsOnWindow.put(m.getID(),m);
+	}
+
+	public void removeMascot(int id) {
+		this.mascotsOnWindow.remove(id);
+	}
 	
+	public long getID() {
+		return this.windowID;
+	}
+
+	public void setMoved(boolean b) {
+		this.hasMoved = b;
+	}
+
+	public void moveMascots(int x,int y) {
+		Iterator<Mascot> temp = this.mascotsOnWindow.values().iterator();
+		while (temp.hasNext()) {
+			temp.next().move(x,y);
+		}
+	}
+
 }

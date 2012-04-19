@@ -21,7 +21,7 @@ public abstract class Environment {
 
 	public void restoreIE() {}
 
-    public abstract ManyAreas getIE();
+    public abstract WindowContainer getIE();
 
 	private static Rectangle screenRect = new Rectangle(new Point(0, 0), Toolkit.getDefaultToolkit().getScreenSize());
 

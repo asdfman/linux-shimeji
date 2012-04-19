@@ -64,7 +64,7 @@ public class MascotEnvironment {
 		return impl.getActiveIE();
 	}
 
-    public ManyAreas getIE() {
+    public WindowContainer getIE() {
         return impl.getIE();
     }
 

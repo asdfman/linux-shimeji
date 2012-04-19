@@ -5,22 +5,27 @@ import jnacontrib.x11.api.X.Display;
 import jnacontrib.x11.api.X.X11Exception;
 import jnacontrib.x11.api.X.Window;
 import com.group_finity.mascot.environment.Area;
-import com.group_finity.mascot.environment.ManyAreas;
+import com.group_finity.mascot.environment.WindowContainer;
 import com.group_finity.mascot.environment.Environment;
 import com.sun.jna.platform.unix.X11;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.Iterator;
+import java.util.Random;
 
 class X11Environment extends Environment {
 	
 	private Display display = new Display();
-	public ManyAreas IE = new ManyAreas();
+	public WindowContainer IE = new WindowContainer();
 	public Area activeIE = new Area();
 	public static final Area workArea = new Area();
 	private int q = 400;
 	private int xoffset,yoffset,wmod,hmod = 0;
 	private ArrayList<String> titles = new ArrayList<String>();
 	private boolean checkTitles = true;
+	private boolean cleanUp, newRandom = false;
+	private Random RNG = new Random();
 			
 	X11Environment() {
 		workArea.set(getWorkAreaRect());
@@ -65,38 +70,56 @@ class X11Environment extends Environment {
 		super.tick();
 		update();
 		if (q == 500) {
-			activeIE = IE.getRandom();
+			getRandomIE();
 			q = 0;
-		} 
+		}
 		q++;
 	}
 
 	private void update() {
 		Window[] allWindows = null;
 		Window ie = null;
-		int x,y,w,h;
+		int x,y,w,h,id;
+		boolean cleanUp = false;
 		Rectangle r = new Rectangle();
 		Area a = new Area();
 			
 		if (display == null) return;
 		try {
 			allWindows = display.getWindows();
-			IE.clear();
+			if (cleanUp) {
+				IE.clear();
+				cleanUp = false;
+			}
 			uguu:	
 				for (int i=0;i<allWindows.length;i++) {
 					if (checkTitles) {
 						if (!isIE(allWindows[i].getTitle())) continue uguu;
 					}
-					w = allWindows[i].getGeometry().width;
-					h = allWindows[i].getGeometry().height;
-					x = allWindows[i].getBounds().x;
-					y = allWindows[i].getBounds().y;
-					r = new Rectangle(x+xoffset,y+yoffset,w+wmod,h+hmod);
+					id = allWindows[i].getID();
+					w = allWindows[i].getGeometry().width + wmod;
+					h = allWindows[i].getGeometry().height + hmod;
+					x = allWindows[i].getBounds().x + xoffset;
+					y = allWindows[i].getBounds().y + yoffset;
+					if (IE.containsKey(id)) {
+						a = IE.get(id);
+						r = a.toRectangle();
+						Rectangle newRect = new Rectangle(x,y,w,h);
+						try {
+						if (r.getLocation() == newRect.getLocation()) {
+							continue uguu;
+						}
+						} catch (Exception e) {}
+						a.set(newRect);
+						IE.put(id,a);
+						continue uguu;
+					}
+					r = new Rectangle(x,y,w,h);
 					a = new Area();
 					a.set(r);
 					a.setVisible(true);
-					IE.add(a);
-					activeIE = a;
+					IE.put(id,a);
+					if (IE.size() > i) cleanUp = true;
 				}
 		} catch (X11Exception e) {}
 
@@ -114,13 +137,25 @@ class X11Environment extends Environment {
 		return r1;
 	}
 
+	private void getRandomIE() {
+		int max = RNG.nextInt(IE.size());
+		if (IE.size() == 0) return;
+		Iterator<Number> iter = IE.keySet().iterator();
+		int i = 0;
+		while (i<max) {
+			iter.next();
+			i++;
+		}
+		activeIE = IE.get(iter.next());
+	}
+
 	@Override
 	public Area getActiveIE() {
 		return this.activeIE;
 	}
 	
 	@Override
-	public ManyAreas getIE() {
+	public WindowContainer getIE() {
 		return this.IE;
 	}
 	

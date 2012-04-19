@@ -30,7 +30,6 @@ public class Mascot {
 
 	private static final long serialVersionUID = 1L;
 	private Area curIE = new Area();
-	private Area prevIE = new Area();
 	private FloorCeiling curFC;
 	private Wall curW;
 
@@ -115,17 +114,17 @@ public class Mascot {
 
 	void tick() {
 		setCurIE();
-		if ((curIE.getWidth()==prevIE.getWidth())&&(curIE.getHeight()==prevIE.getWidth())) {
-			int xoffset = curIE.getLeft() - prevIE.getLeft();
+		//if ((curIE.getWidth()==prevIE.getWidth())&&(curIE.getHeight()==prevIE.getWidth())) {
+			//int xoffset = curIE.getLeft() - prevIE.getLeft();
 
-			int yoffset = curIE.getTop() - prevIE.getTop();
+			//int yoffset = curIE.getTop() - prevIE.getTop();
 
-			if (xoffset != 0 || yoffset != 0) {
-				Point p = getAnchor();
-				p.setLocation(p.getX()+xoffset,p.getY()+yoffset);
-				setAnchor(p);
-			} 
-		}
+			//if (xoffset != 0 || yoffset != 0) {
+				//Point p = getAnchor();
+				//p.setLocation(p.getX()+xoffset,p.getY()+yoffset);
+				//setAnchor(p);
+			//} 
+		//}
 		
 		if (isAnimating()) {
 			if (getBehavior() != null) {
@@ -235,15 +234,19 @@ public class Mascot {
 	}
 	
 	public void setCurIE() {
-		prevIE = curIE;
+		Area temp = curIE;
 		if (this.curW != null) {
 			this.curIE = curW.getArea();
 					} else {
 			if (this.curFC != null) {
 				this.curIE = curFC.getArea();
 			} else {
-				this.curIE = new Area();
+				this.curIE = new Area(0);
 			}
+		}
+		if (!temp.equals(curIE)) {
+			temp.removeMascot(this.id);
+			curIE.addMascot(this);
 		}
 		
 	}
@@ -288,4 +291,13 @@ public class Mascot {
 	public MascotEnvironment getEnvironment() {
 		return environment;
 	}
+
+	public int getID() {
+		return this.id;
+	}
+
+	public void move(int x, int y) {
+		anchor.setLocation(anchor.getX()+x,anchor.getY()+y);
+	}
+
 }

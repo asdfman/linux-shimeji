@@ -3,7 +3,7 @@ package com.group_finity.mascot.generic;
 import java.awt.Point;
 
 import com.group_finity.mascot.environment.Area;
-import com.group_finity.mascot.environment.ManyAreas;
+import com.group_finity.mascot.environment.WindowContainer;
 import com.group_finity.mascot.environment.Environment;
 
 
@@ -12,7 +12,7 @@ import com.group_finity.mascot.environment.Environment;
  */
 class GenericEnvironment extends Environment {
 
-    private static ManyAreas activeIE;
+    private static WindowContainer activeIE;
 
 	@Override
 	public void tick() {
@@ -40,7 +40,7 @@ class GenericEnvironment extends Environment {
 	}
 
     @Override
-    public ManyAreas getIE() {
+    public WindowContainer getIE() {
         return this.activeIE;
     }
 
