@@ -251,6 +251,10 @@ public class Mascot {
 	public void setCurW(Wall w) {
 		this.curW = w;
 	}
+
+	public boolean onBorder() {
+		return (this.curW != null || this.curFC != null);
+	}
 	
 	public void setCurFC(FloorCeiling fc) {
 		this.curFC = fc;

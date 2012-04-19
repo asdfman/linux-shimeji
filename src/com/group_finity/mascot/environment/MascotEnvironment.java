@@ -127,6 +127,14 @@ public class MascotEnvironment {
 	}
 
 	public Border getWall(boolean ignoreSeparator) {
+		if ( mascot.getAnchor().getY() <= getWorkArea().getTop()+64) { 
+			Point p = mascot.getAnchor();
+			if (mascot.onBorder()) {
+				p.setLocation(p.getX()+1,p.getY());
+				mascot.setAnchor(p);
+			}
+			return NotOnBorder.INSTANCE;
+		}
 		if ( mascot.isLookRight()) {
 			if (getIE().onLeft(mascot.getAnchor())) {
 				mascot.setCurW(getIE().getLeft(mascot.getAnchor()));
