@@ -70,7 +70,11 @@ public class Main {
 		loadConfiguration();
 
 		// トレイアイコンを作成する
- 		createTrayIcon();
+		try {
+			createTrayIcon();
+		} catch(UnsupportedOperationException e) {
+			System.out.println("System tray not supported");
+		}
 
 		// しめじを一匹作成する
 		createMascot();
@@ -129,7 +133,7 @@ public class Main {
 		}
 
 		// 「増やす」メニューアイテム
-		final MenuItem increaseMenu = new MenuItem("増やす");
+		final MenuItem increaseMenu = new MenuItem("Add one");
 		increaseMenu.addActionListener(new ActionListener() {
 			public void actionPerformed(final ActionEvent event) {
 				createMascot();
@@ -137,7 +141,7 @@ public class Main {
 		});
 
 		// 「あつまれ！」メニューアイテム
-		final MenuItem gatherMenu = new MenuItem("あつまれ！");
+		final MenuItem gatherMenu = new MenuItem("Gather");
 		gatherMenu.addActionListener(new ActionListener() {
 			public void actionPerformed(final ActionEvent event) {
 				gatherAll();
@@ -145,23 +149,23 @@ public class Main {
 		});
 
 		// 「一匹だけ残す」メニューアイテム
-		final MenuItem oneMenu = new MenuItem("一匹だけ残す");
+		final MenuItem oneMenu = new MenuItem("Reduce to 1");
 		oneMenu.addActionListener(new ActionListener() {
 			public void actionPerformed(final ActionEvent event) {
 				remainOne();
 			}
 		});
 
-		// 「IEを元に戻す」メニューアイテム
-		final MenuItem restoreMenu = new MenuItem("IEを元に戻す");
-		restoreMenu.addActionListener(new ActionListener() {
-			public void actionPerformed(final ActionEvent event) {
-				restoreIE();
-			}
-		});
+		//  Restore IE not implemented yet
+		//final MenuItem restoreMenu = new MenuItem("IEを元に戻す");
+		//restoreMenu.addActionListener(new ActionListener() {
+			//public void actionPerformed(final ActionEvent event) {
+				//restoreIE();
+			//}
+		//});
 
 		// 「ばいばい」メニューアイテム
-		final MenuItem closeMenu = new MenuItem("ばいばい");
+		final MenuItem closeMenu = new MenuItem("Quit");
 		closeMenu.addActionListener(new ActionListener() {
 			public void actionPerformed(final ActionEvent e) {
 				exit();
@@ -173,7 +177,7 @@ public class Main {
 		trayPopup.add(increaseMenu);
 		trayPopup.add(gatherMenu);
 		trayPopup.add(oneMenu);
-		trayPopup.add(restoreMenu);
+//		trayPopup.add(restoreMenu);
 		trayPopup.add(new MenuItem("-"));
 		trayPopup.add(closeMenu);
 
