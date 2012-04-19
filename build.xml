@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="Shimeji" basedir="." default="jar">
+  <property name="version" value="2.2.2" />
+  
+  <target name="clean">
+    <delete dir="classes" />
+    <mkdir dir="classes"/>
+    <delete file="Shimeji.jar"/>
+  </target>
+  
+  <target name="compile" depends="clean">
+    <mkdir dir="Classes" />
+    <javac destdir="Classes" target="6" optimize="yes" encoding="UTF-8" includeantruntime="false">
+      <src path="src"/>
+      <src path="src_generic"/>
+      <src path="src_x11"/>
+      <classpath>
+        <fileset dir="lib" />
+      </classpath>
+    </javac>
+  </target>
+    
+  <target name="jar" depends="compile">
+    <jar destfile="Shimeji.jar" basedir="Classes" manifest="MANIFEST.MF" />
+  </target>
+  
+</project>
+
+

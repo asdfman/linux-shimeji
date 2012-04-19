@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Main-Class: com.group_finity.mascot.Main
+Class-Path: ./ img/ conf/ ./lib/jna.jar ./lib/platform.jar ./lib/js.jar ./lib/script-api.jar ./lib/script-js.jar
