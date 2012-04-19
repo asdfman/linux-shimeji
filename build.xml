@@ -21,7 +21,7 @@
   </target>
     
   <target name="jar" depends="compile">
-    <jar destfile="Shimeji.jar" basedir="Classes" manifest="MANIFEST.MF" />
+    <jar destfile="Shimeji.jar" basedir="classes" manifest="MANIFEST.MF" />
   </target>
   
 </project>
