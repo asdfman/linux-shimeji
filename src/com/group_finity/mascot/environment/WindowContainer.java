@@ -14,22 +14,6 @@ import java.util.Iterator;
 
 public class WindowContainer extends Hashtable<Number,Area> {
 	
-	private int counter = 0;
-/*
- *  dispose() - ensures the window is not deleted until the 
- *  following tick to avoid simultanous modification exceptions
- *  when removing user-terminated windows from the container.
- *  Deattachment of the mascots occurs in the calling function 
- *  on the first tick.
- */
-	public void dispose(Number n) {
-		counter++;
-		if (counter == 5) {
-			remove(n);
-			counter = 0;
-		}
-	}
-
 /*
  * onBorder, getBorder methods - Called by mascots when 
  * determining the next action. Iterate through all windows,

@@ -37,6 +37,8 @@ class X11Environment extends Environment {
 // frequently than each tick. Initialize at 400 to
 // force an early activeIE selection.
 	private int q = 400;
+	private int z = 0;
+	private Number markedForDeletion;
 
 // Variables for configuration options
 	private int xoffset,yoffset,wmod,hmod = 0;
@@ -160,18 +162,27 @@ class X11Environment extends Environment {
 		} catch (X11Exception e) {}
 	// Remove user-terminated windows from the container
 		if (cleanUp) {
-			Iterator<Number> keys = IE.keySet().iterator();
-			while (keys.hasNext()) {
-				Number i = keys.next();
-				if (!curActiveWin.contains(i)) {
-				// Move each mascot on the window by +1,+1 for ejection
-					IE.get(i).ejectMascots();
-				// dispose() will remove the window from the container on the
-				// next tick, after the mascots have been safely ejected
-					IE.dispose(i);
-				}
+			if (z==0) {
+				Iterator<Number> keys = IE.keySet().iterator();
+				while (keys.hasNext()) {
+					Number i = keys.next();
+					if (!curActiveWin.contains(i)) {
+					// Move each mascot on the window by +1,+1 for ejection
+						IE.get(i).ejectMascots();
+					// Mark the window for deletion on next tick
+						markedForDeletion = i;
+					}
+				}	
 			}
-			cleanUp = false;
+			if (z==1 && markedForDeletion != null) {
+				IE.remove(markedForDeletion);
+				markedForDeletion = null;
+			}
+			z++;
+			if (z==2) {
+				cleanUp = false;
+				z=0;
+			}
 		}
 			
 
