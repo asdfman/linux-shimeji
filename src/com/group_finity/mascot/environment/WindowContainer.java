@@ -5,8 +5,40 @@ import java.awt.Point;
 import java.util.Hashtable;
 import java.util.Iterator;
 
+/*
+ * Hashtable extension storing XWindow ID's and Area objects
+ * representing the window dimensions. Methods called by
+ * mascots (via MascotEnvironment) when choosing new actions
+ * to check whether they're on a border of any kind.
+ */
+
 public class WindowContainer extends Hashtable<Number,Area> {
 	
+	private int counter = 0;
+/*
+ *  dispose() - ensures the window is not deleted until the 
+ *  following tick to avoid simultanous modification exceptions
+ *  when removing user-terminated windows from the container.
+ *  Deattachment of the mascots occurs in the calling function 
+ *  on the first tick.
+ */
+	public void dispose(Number n) {
+		counter++;
+		if (counter == 5) {
+			remove(n);
+			counter = 0;
+		}
+	}
+
+/*
+ * onBorder, getBorder methods - Called by mascots when 
+ * determining the next action. Iterate through all windows,
+ * get the specific border type and call its isOn() to 
+ * check whether the mascot anchor is on the border. One 
+ * method for plain boolean checks, one for getting the border
+ * when needing to decide movement destinations based on it.
+ *
+ */
 	public boolean onLeft(final Point p) {
 		Iterator<Area> temp = this.values().iterator();
 		while (temp.hasNext()) {

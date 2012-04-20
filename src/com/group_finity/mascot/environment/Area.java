@@ -193,4 +193,11 @@ public class Area {
 		}
 	}
 
+	public void ejectMascots() {
+		Iterator<Mascot> temp = this.mascotsOnWindow.values().iterator();
+		while (temp.hasNext()) {
+			temp.next().move(1,1);
+		}
+	}
+
 }

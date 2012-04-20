@@ -99,10 +99,17 @@ public class MascotEnvironment {
 		return getFloor(false);
 	}
 
+/*
+ * getFloor() - Environment check. Checks both the currently active windows
+ * and the bottom of the screen. Returns the border if on one. Controls the
+ * current Floor/Ceiling attribute of each mascot.
+ */
 	public Border getFloor(boolean ignoreSeparator) {
 		if (getIE().onTop(mascot.getAnchor())) {
 			FloorCeiling fc = getIE().getTop(mascot.getAnchor());
 			if (currentWorkArea == null) currentWorkArea = impl.getWorkArea();
+		// Don't let the mascot get footing on any window ceiling within 64px
+		// of the top of the screen.
 			if (fc.getY() >= currentWorkArea.getTop()+64) {
 				mascot.setCurFC(fc);
 				return getIE().getTop(mascot.getAnchor());
@@ -126,7 +133,14 @@ public class MascotEnvironment {
 		return getWall(false);
 	}
 
+/*
+ * getWall() - Environment check. Checks both the currently active windows
+ * and the sides of the screen. Returns the border if on one. Controls the
+ * current Wall attribute of each mascot.
+ */
 	public Border getWall(boolean ignoreSeparator) {
+	// Don't let the mascot hold onto window walls when within 64px of
+	// the top of the screen.
 		if ( mascot.getAnchor().getY() <= getWorkArea().getTop()+64) { 
 			Point p = mascot.getAnchor();
 			if (mascot.onBorder()) {
