@@ -26,6 +26,8 @@ class X11Environment extends Environment {
 	private boolean checkTitles = true;
 	private boolean cleanUp, newRandom = false;
 	private Random RNG = new Random();
+	private ArrayList<Number> curActiveWin = new ArrayList<Number>();
+
 			
 	X11Environment() {
 		workArea.set(getWorkAreaRect());
@@ -74,23 +76,19 @@ class X11Environment extends Environment {
 			q = 0;
 		}
 		q++;
+		if (q%10==0) cleanUp = true;
 	}
 
 	private void update() {
 		Window[] allWindows = null;
 		Window ie = null;
 		int x,y,w,h,id;
-		boolean cleanUp = false;
 		Rectangle r = new Rectangle();
 		Area a = new Area();
-			
+		if (cleanUp) curActiveWin = new ArrayList<Number>();
 		if (display == null) return;
 		try {
 			allWindows = display.getWindows();
-			if (cleanUp) {
-				IE.clear();
-				cleanUp = false;
-			}
 			uguu:	
 				for (int i=0;i<allWindows.length;i++) {
 					if (checkTitles) {
@@ -106,12 +104,14 @@ class X11Environment extends Environment {
 						r = a.toRectangle();
 						Rectangle newRect = new Rectangle(x,y,w,h);
 						try {
-						if (r.getLocation() == newRect.getLocation()) {
-							continue uguu;
-						}
+							if (r.getLocation() == newRect.getLocation()) {
+								if (cleanUp) curActiveWin.add(id);
+								continue uguu;
+							}
 						} catch (Exception e) {}
 						a.set(newRect);
 						IE.put(id,a);
+						if (cleanUp) curActiveWin.add(id);
 						continue uguu;
 					}
 					r = new Rectangle(x,y,w,h);
@@ -119,9 +119,20 @@ class X11Environment extends Environment {
 					a.set(r);
 					a.setVisible(true);
 					IE.put(id,a);
-					if (IE.size() > i) cleanUp = true;
+					if (cleanUp) curActiveWin.add(id);
 				}
 		} catch (X11Exception e) {}
+		if (cleanUp) {
+			Iterator<Number> keys = IE.keySet().iterator();
+			while (keys.hasNext()) {
+				Number i = keys.next();
+				if (!curActiveWin.contains(i)) {
+					IE.remove(i);
+				}
+			}
+			cleanUp = false;
+		}
+			
 
 	}
 	

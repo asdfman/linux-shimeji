@@ -42,14 +42,7 @@ public class WindowContainer extends Hashtable<Number,Area> {
 		}
 		return false;
 	}
-	
-	public Area getRandom() {
-		if (size() > 0) {
-			return get(RNG.nextInt(size()));
-		}
-		return null;
-	}
-	
+
 	public Wall getLeft(final Point p) {
 		Iterator<Area> temp = this.values().iterator();
 		while (temp.hasNext()) {

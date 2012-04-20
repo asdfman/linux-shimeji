@@ -12,7 +12,8 @@ import com.group_finity.mascot.environment.Environment;
  */
 class GenericEnvironment extends Environment {
 
-    private static WindowContainer activeIE;
+    private static Area activeIE;
+	private static WindowContainer IE;
 
 	@Override
 	public void tick() {
@@ -36,12 +37,12 @@ class GenericEnvironment extends Environment {
 
 	@Override
 	public Area getActiveIE() {
-		return this.activeIE.getRandom();
+		return this.activeIE;
 	}
 
-    @Override
-    public WindowContainer getIE() {
-        return this.activeIE;
-    }
+	@Override
+	public WindowContainer getIE() {
+		return this.IE;
+	}
 
 }
