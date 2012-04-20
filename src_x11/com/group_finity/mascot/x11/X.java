@@ -192,7 +192,6 @@ public class X {
                 bytes = rootWindow.getProperty(X11.XA_WINDOW, "_NET_CLIENT_LIST");
             } catch (X11Exception e) {
                 try {
-					System.out.println("2");
                     bytes = rootWindow.getProperty(X11.XA_CARDINAL, "_WIN_CLIENT_LIST");
                 } catch (X11Exception e1) {
                     throw new X11Exception("Cannot get client list properties (_NET_CLIENT_LIST or _WIN_CLIENT_LIST)");
