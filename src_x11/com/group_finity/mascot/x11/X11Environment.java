@@ -56,6 +56,7 @@ class X11Environment extends Environment {
 // init() - set work area and read configuration files	
 	X11Environment() {
 		workArea.set(getWorkAreaRect());
+		display.flush();
 		try {
 			FileInputStream fstream = new FileInputStream("window.conf");
 			DataInputStream in = new DataInputStream(fstream);
@@ -112,7 +113,7 @@ class X11Environment extends Environment {
 	private void update() {
 		Window[] allWindows = null;
 		Window ie = null;
-		int x,y,w,h,id;
+		int x,y,w,h,id,curDesktop = 0;
 		Rectangle r = new Rectangle();
 		Area a = new Area();
 		if (cleanUp) curActiveWin = new ArrayList<Number>();
@@ -120,6 +121,7 @@ class X11Environment extends Environment {
 		try {
 		// Retrieve all windows from the X Display
 			allWindows = display.getWindows();
+			if (cleanUp) curDesktop = display.getActiveDesktopNumber();
 			uguu:	
 				for (int i=0;i<allWindows.length;i++) {
 				// Break for-loop if the window title does not match config.
@@ -135,6 +137,14 @@ class X11Environment extends Environment {
 				// Check if the window already exists in our container.
 					if (IE.containsKey(id)) {
 						a = IE.get(id);
+					// Set windows on other desktops invisible every 10th tick
+						if (cleanUp) {
+							if(allWindows[i].getDesktop() == curDesktop) {
+								IE.get(id).setVisible(true);
+							} else {
+								IE.get(id).setVisible(false);
+							}
+						}
 						r = a.toRectangle();
 						Rectangle newRect = new Rectangle(x,y,w,h);
 					// Check if the window has been moved. Break for-loop
@@ -155,34 +165,23 @@ class X11Environment extends Environment {
 					r = new Rectangle(x,y,w,h);
 					a = new Area();
 					a.set(r);
-					a.setVisible(true);
+					a.setVisible(false);
 					IE.put(id,a);
 					if (cleanUp) curActiveWin.add(id);
 				}
 		} catch (X11Exception e) {}
-	// Remove user-terminated windows from the container
+	// Remove user-terminated windows from the container every 10th tick
 		if (cleanUp) {
-			if (z==0) {
-				Iterator<Number> keys = IE.keySet().iterator();
-				while (keys.hasNext()) {
-					Number i = keys.next();
-					if (!curActiveWin.contains(i)) {
-					// Move each mascot on the window by +1,+1 for ejection
-						IE.get(i).ejectMascots();
-					// Mark the window for deletion on next tick
-						markedForDeletion = i;
-					}
-				}	
+			Iterator<Number> keys = IE.keySet().iterator();
+			while (keys.hasNext()) {
+				Number i = keys.next();
+				if (!curActiveWin.contains(i)) {
+					IE.get(i).setVisible(false);
+					IE.remove(i);
+					break;
+				}
 			}
-			if (z==1 && markedForDeletion != null) {
-				IE.remove(markedForDeletion);
-				markedForDeletion = null;
-			}
-			z++;
-			if (z==2) {
-				cleanUp = false;
-				z=0;
-			}
+		cleanUp = false;
 		}
 			
 
