@@ -137,7 +137,7 @@ class X11Environment extends Environment {
 					if (IE.containsKey(id)) {
 						a = IE.get(id);
 					// Set windows on other desktops and minimized windows
-					// invisible every 10th tick
+					// invisible every 5th tick
 						if (cleanUp) {
 							String state;
 							boolean notOnDesktop = (allWindows[i].getDesktop() != curDesktop);
@@ -173,7 +173,7 @@ class X11Environment extends Environment {
 					if (cleanUp) curActiveWin.add(id);
 				}
 		} catch (X11Exception e) {}
-	// Remove user-terminated windows from the container every 10th tick
+	// Remove user-terminated windows from the container every 5th tick
 		if (cleanUp) {
 			Iterator<Number> keys = IE.keySet().iterator();
 			while (keys.hasNext()) {

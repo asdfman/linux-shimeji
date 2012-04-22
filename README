@@ -1,16 +1,23 @@
 Shimeji for Linux 
 
-This git repo is intended for the sole purpose of distribution for now. Don't expect version numbers and changelogs until I've implemented all basic functionality. 
+I appreciate any bug reports or suggestions. Use the issue tracker here or contact me directly on IRC (Rizon) where I'm called 'asdfman'.
+Future feature plans :
+- Window layering detection, preventing interaction with non-visible objects, possibly treating overlapping windows as one big mass
+- If you want window throwing and multi-shimeji support (Shimeji-EE style), let me know. I don't plan on using them myself at all and I'm not really convinced anyone else will either. 
 
-I appreciate any bug reports, preferred way is to contact me on IRC (Rizon) where I am called 'asdfman'
 
------------------------------------------------------------------
+CHANGELOG
+
+22.4.2012 v1.0
+- Initial release, all basic functionality implemented
+
+-------------------------------------------------------------------------------
 
 1. REQUIREMENTS
 
-A compositing manager, Compton is highly recommended. Turn off window shadows or find a way to exclude the Shimeji windows or you'll end up with a shadow box surrounding every mascot.
+A compositing manager, Compton is highly recommended. Turn off window shadows or find a way to exclude the Shimeji windows or you'll end up with a shadow box surrounding every mascot. 
 
-Tested with both OpenJDK 6 and SunJDK 6 JRE's. There were some issues on Gnome and KDE when using OpenJDK, if you experience them the only solution I can offer for now is using Sun JRE, should solve all problems.
+Tested with both OpenJDK 6 and SunJDK 6 JRE's. There were some issues on Gnome and KDE when using OpenJDK, if you experience them the only solution I can offer for now is using Sun JRE, should solve all problems. 
 
 
 2. USAGE
@@ -27,8 +34,6 @@ Note that the program comes pre-compiled and you do not need to build unless you
 
 3. CONFIGURATION 
 
-For now the only runtime configuration you can do is :
-
 window.conf - set window dimensions to match your window decorations. If you're using a plain WM with no decorations, zero on all values or an empty file should be accurate
 
 titles.conf - enter window titles, one per line, case sensitive. The Mascots will interact with these windows only. If no window titles are specified, all windows will be interacted with. Most WM's draw invisible windows for UI elements so it is recommended to use the config file.
@@ -38,15 +43,24 @@ For more information refer to the configuration files.
 
 4. OBTAINING MORE SHIMEJIS
 
-For now it's best if you use Shimejis with the default Actions.xml/Behavior.xml (46 images in the img folder all but guaranteed a default Shimeji). This covers the vast majority of Shimejis available on pixiv.net (tag : しめじ). You can try using heavily customized ones, they will most likely work, you'll just lose some functionality. A guide on converting any action/behavior file to support this version may or may not come later.
+Default Shimejis with 46 images work best with this version . This covers the vast majority of Shimejis available on pixiv.net (tag : しめじ). You can try using heavily customized ones, they will most likely work, you'll just lose some functionality. EXTRA NOTE : Most Shimejis are 46-image default ones and will work perfectly fine with this version, just use the included config files and copy the images over.
 
 Note on why they do not work : This version has simultaneous multiple window interaction unlike the original, which is limited to one window at a time (mascots will fall off it as soon as you unfocus). The config files needed to to be modified to add checks for all active windows so that the mascot can keep track of it's environment. This only affects the action selection so if you break the config files, the mascots will either stay still and wait when no action is available. 
 
-I'll emphasize one last time that most Shimejis you'll find on Pixiv are 46-image default config ones that will work just fine.
+To make a custom Actions.xml fully functional in this version, all jump action conditions with "activeIE" targeting the active window (3 in total) must be kept intact.
+
+They are as follows : "IEの左に飛びつく" "IEの右に飛びつく" "IEの下に飛びつく"
+After you've located them and ensured they stay intact, search and replace ALL occurences of "activeIE" with "curIE" and you have a fully multi-window functional Actions.xml.
+
+To navigate your way through the .xml files more comfortably, I recommend using an english version of the file (from the Shimeji-EE project) as a roadmap.
+
+Altering the the default Behavior.xml is not recommended. If you encounter a non-default behavior file (and you're already using the Actions.xml that came with it), try to find the 'new' entrys and only add those, risk of breakage is extremely low that way. 
 
 
 5. LICENSE
 
-Licenses are too deep for me. This project inherits the license of the original program (www.group-finity.com/Shimeji).
+This project inherits the ZLIB/LIBPNG license of the original program (www.group-finity.com/Shimeji). 
+The included Java Native Access library (http://github.com/twall/jna) is licensed under the LGPL. The Mozilla Rhino Javascript Engine (www.mozilla.org/rhino)
+is licensed under the Mozilla Public License.
 
 The included Shimeji was obtained from http://www.pixiv.net/member_illust.php?mode=medium&illust_id=26401063 all credits to the original creator.

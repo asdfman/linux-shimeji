@@ -54,6 +54,14 @@ public class AnimationBuilder {
 
 		final String[] moveCoordinates = moveText.split(",");
 		Point move = new Point(Integer.parseInt(moveCoordinates[0]), Integer.parseInt(moveCoordinates[1]));
+		
+		/**
+		 * In order to use standard Actions.xml files, every velocity needs to be halved and
+		 * every frame duration must be doubled. This is due to the halved tick interval compared
+		 * to the original program. Velocities of 1 cannot be halved into zero. We will instead
+		 * double the amount of frames for those animations and move at the original velocity of
+		 * 1 on every second frame.
+		 */
 		int newx = 0;
 		int newy = 0;
 		newx = (int)move.getX();
@@ -61,6 +69,7 @@ public class AnimationBuilder {
 		boolean oneX = false;
 		boolean oneY = false;
 		
+	// Check if either velocity is 1
 		if (Math.abs(newx) != 1) {
 			newx = newx/2;
 		} else {
@@ -74,7 +83,9 @@ public class AnimationBuilder {
 		}
 		
 		int duration = Integer.parseInt(durationText);
-						
+	// In case of a 1 velocity, call recursively to create the extra
+	// frames and alternate between velocities of 1 and 0. Global
+	// counter variable tracks the process.
 		if (oneX || oneY) {
 			if (tot == 0) tot = duration*2; 
 			if (cnt < tot) {

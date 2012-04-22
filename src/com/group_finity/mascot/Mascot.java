@@ -29,6 +29,7 @@ import com.group_finity.mascot.image.TranslucentWindow;
 public class Mascot {
 
 	private static final long serialVersionUID = 1L;
+	// Storing current border object and the associated IE window for condition checks.
 	private Area curIE = new Area();
 	private FloorCeiling curFC;
 	private Wall curW;
@@ -100,7 +101,8 @@ public class Mascot {
 		log.log(Level.INFO, "マスコット生成({0})", this);
 
 		// 常に最善面に表示
-		getWindow().asJWindow().setAlwaysOnTop(true);
+//		getWindow().asJWindow().setAlwaysOnTop(true);
+//		getWindow().asJWindow().setBounds(0,0,128,128);
 
 		// マウスハンドラを登録
 		getWindow().asJWindow().addMouseListener(new MascotEventHandler(this));
@@ -113,19 +115,8 @@ public class Mascot {
 	}
 
 	void tick() {
+	// Update the current IE window the mascot is attached to based on floor/wall checks
 		setCurIE();
-		//if ((curIE.getWidth()==prevIE.getWidth())&&(curIE.getHeight()==prevIE.getWidth())) {
-			//int xoffset = curIE.getLeft() - prevIE.getLeft();
-
-			//int yoffset = curIE.getTop() - prevIE.getTop();
-
-			//if (xoffset != 0 || yoffset != 0) {
-				//Point p = getAnchor();
-				//p.setLocation(p.getX()+xoffset,p.getY()+yoffset);
-				//setAnchor(p);
-			//} 
-		//}
-		
 		if (isAnimating()) {
 			if (getBehavior() != null) {
 
@@ -144,15 +135,14 @@ public class Mascot {
 
 	public void apply() {
 		if (isAnimating()) {
-
 			// 表示できる画像が無ければ何も出来ない
 			if (getImage() != null) {
 
-				// ウィンドウの領域を設定
-				getWindow().asJWindow().setBounds(getBounds());
-
 				// 画像を設定
 				getWindow().setImage(getImage().getImage());
+
+				// ウィンドウの領域を設定
+				getWindow().asJWindow().setBounds(getBounds());
 
 				// 表示
 				if (!getWindow().asJWindow().isVisible()) {
@@ -232,7 +222,6 @@ public class Mascot {
 	private void setTime(final int time) {
 		this.time = time;
 	}
-	
 	public void setCurIE() {
 		Area temp = curIE;
 		if (this.curW != null) {

@@ -78,7 +78,6 @@ public class Main {
 
 		// しめじを一匹作成する
 		createMascot();
-
 		getManager().start();
 	}
 
