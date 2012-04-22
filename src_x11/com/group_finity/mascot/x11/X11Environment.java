@@ -17,7 +17,7 @@ import java.util.Random;
 class X11Environment extends Environment {
 	
 // The X display. See X.java 
-	private Display display = new Display();
+	private Display display = new Display(); 
 
 // Hashtable for storing the active windows
 	public WindowContainer IE = new WindowContainer();
@@ -56,7 +56,6 @@ class X11Environment extends Environment {
 // init() - set work area and read configuration files	
 	X11Environment() {
 		workArea.set(getWorkAreaRect());
-		display.flush();
 		try {
 			FileInputStream fstream = new FileInputStream("window.conf");
 			DataInputStream in = new DataInputStream(fstream);
@@ -105,8 +104,8 @@ class X11Environment extends Environment {
 			q = 0;
 		}
 		q++;
-	// Perform cleanup of user-terminated windows every 10th tick
-		if (q%10==0) cleanUp = true;
+	// Perform cleanup of user-terminated windows every 5th tick
+		if (q%5==0) cleanUp = true;
 	}
 
 // update() - window handling, executed each tick
@@ -137,12 +136,16 @@ class X11Environment extends Environment {
 				// Check if the window already exists in our container.
 					if (IE.containsKey(id)) {
 						a = IE.get(id);
-					// Set windows on other desktops invisible every 10th tick
+					// Set windows on other desktops and minimized windows
+					// invisible every 10th tick
 						if (cleanUp) {
-							if(allWindows[i].getDesktop() == curDesktop) {
-								IE.get(id).setVisible(true);
-							} else {
+							String state;
+							boolean notOnDesktop = (allWindows[i].getDesktop() != curDesktop);
+							state = allWindows[i].getState();
+							if (notOnDesktop || state.contains("M")) {
 								IE.get(id).setVisible(false);
+							} else {
+								IE.get(id).setVisible(true);
 							}
 						}
 						r = a.toRectangle();
@@ -183,8 +186,6 @@ class X11Environment extends Environment {
 			}
 		cleanUp = false;
 		}
-			
-
 	}
 	
 	private boolean isIE(String titlebar) {

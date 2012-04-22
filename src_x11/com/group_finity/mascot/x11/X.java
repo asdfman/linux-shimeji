@@ -570,6 +570,28 @@ public class X {
 
         }
 
+		/**
+		 * Returns window state atoms
+		 * 
+		 * @return String with state flags, empty string if a failure occurs
+		 * @throws X11Exception thrown if X11 window errors occurred
+		 * 
+		 */
+		public String getState() throws X11Exception {
+			byte[] val;
+			try {
+				val = getProperty(display.getAtom("ATOM"), "_NET_WM_STATE");
+			} catch (X11Exception e) {
+				return "";
+			}
+			try {
+				return new String(val,"ISO-8859-1");
+		    } catch (UnsupportedEncodingException e) {
+				return "";
+			}
+				
+		}
+
         /**
          * Returns the window class.
          *
