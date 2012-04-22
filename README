@@ -50,7 +50,7 @@ Note on why they do not work : This version has simultaneous multiple window int
 To make a custom Actions.xml fully functional in this version, all jump action conditions with "activeIE" targeting the active window (3 in total) must be kept intact.
 
 They are as follows : "IEの左に飛びつく" "IEの右に飛びつく" "IEの下に飛びつく"
-After you've located them and ensured they stay intact, search and replace ALL occurences of "activeIE" with "curIE" and you have a fully multi-window functional Actions.xml.
+After you've located them and ensured they stay intact, search and replace ALL occurences of "environment.activeIE" with "curIE" and you have a fully multi-window functional Actions.xml.
 
 To navigate your way through the .xml files more comfortably, I recommend using an english version of the file (from the Shimeji-EE project) as a roadmap.
 
