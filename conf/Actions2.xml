@@ -25,19 +25,19 @@
 
 		<動作 名前="走る" 種類="移動" 枠="地面">
 			<アニメーション>
-				<ポーズ 画像="/shime1.png" 基準座標="64,128" 移動速度="-4,0" 長さ="2" />
-				<ポーズ 画像="/shime2.png" 基準座標="64,128" 移動速度="-4,0" 長さ="2" />
-				<ポーズ 画像="/shime1.png" 基準座標="64,128" 移動速度="-4,0" 長さ="2" />
-				<ポーズ 画像="/shime3.png" 基準座標="64,128" 移動速度="-4,0" 長さ="2" />
+				<ポーズ 画像="/shime1.png" 基準座標="64,128" 移動速度="-4,0" 長さ="4" />
+				<ポーズ 画像="/shime2.png" 基準座標="64,128" 移動速度="-4,0" 長さ="4" />
+				<ポーズ 画像="/shime1.png" 基準座標="64,128" 移動速度="-4,0" 長さ="4" />
+				<ポーズ 画像="/shime3.png" 基準座標="64,128" 移動速度="-4,0" 長さ="4" />
 			</アニメーション>
 		</動作>
 
 		<動作 名前="猛ダッシュ" 種類="移動" 枠="地面">
 			<アニメーション>
-				<ポーズ 画像="/shime1.png" 基準座標="64,128" 移動速度="-8,0" 長さ="2" />
-				<ポーズ 画像="/shime2.png" 基準座標="64,128" 移動速度="-8,0" 長さ="2" />
-				<ポーズ 画像="/shime1.png" 基準座標="64,128" 移動速度="-8,0" 長さ="2" />
-				<ポーズ 画像="/shime3.png" 基準座標="64,128" 移動速度="-8,0" 長さ="2" />
+				<ポーズ 画像="/shime1.png" 基準座標="64,128" 移動速度="-6,0" 長さ="3" />
+				<ポーズ 画像="/shime2.png" 基準座標="64,128" 移動速度="-6,0" 長さ="3" />
+				<ポーズ 画像="/shime1.png" 基準座標="64,128" 移動速度="-6,0" 長さ="3" />
+				<ポーズ 画像="/shime3.png" 基準座標="64,128" 移動速度="-6,0" 長さ="3" />
 			</アニメーション>
 		</動作>
 
@@ -65,14 +65,14 @@
 
 		<動作 名前="座って首が回る" 種類="固定" 枠="地面">
 			<アニメーション>
-				<ポーズ 画像="/shime26.png" 基準座標="64,128" 移動速度="0,0" 長さ="5" />
-				<ポーズ 画像="/shime15.png" 基準座標="64,128" 移動速度="0,0" 長さ="5" />
-				<ポーズ 画像="/shime27.png" 基準座標="64,128" 移動速度="0,0" 長さ="5" />
-				<ポーズ 画像="/shime16.png" 基準座標="64,128" 移動速度="0,0" 長さ="5" />
-				<ポーズ 画像="/shime28.png" 基準座標="64,128" 移動速度="0,0" 長さ="5" />
-				<ポーズ 画像="/shime17.png" 基準座標="64,128" 移動速度="0,0" 長さ="5" />
-				<ポーズ 画像="/shime29.png" 基準座標="64,128" 移動速度="0,0" 長さ="5" />
-				<ポーズ 画像="/shime11.png" 基準座標="64,128" 移動速度="0,0" 長さ="5" />
+				<ポーズ 画像="/shime26.png" 基準座標="64,128" 移動速度="0,0" 長さ="15" />
+				<ポーズ 画像="/shime15.png" 基準座標="64,128" 移動速度="0,0" 長さ="15" />
+				<ポーズ 画像="/shime27.png" 基準座標="64,128" 移動速度="0,0" 長さ="15" />
+				<ポーズ 画像="/shime16.png" 基準座標="64,128" 移動速度="0,0" 長さ="15" />
+				<ポーズ 画像="/shime28.png" 基準座標="64,128" 移動速度="0,0" 長さ="15" />
+				<ポーズ 画像="/shime17.png" 基準座標="64,128" 移動速度="0,0" 長さ="15" />
+				<ポーズ 画像="/shime29.png" 基準座標="64,128" 移動速度="0,0" 長さ="15" />
+				<ポーズ 画像="/shime11.png" 基準座標="64,128" 移動速度="0,0" 長さ="15" />
 			</アニメーション>
 		</動作>
 
@@ -297,7 +297,7 @@
 			<動作参照 名前="落ちる"/>
 			<動作 種類="選択">
 				<動作 種類="複合" 条件="${mascot.environment.floor.isOn(mascot.anchor) ||
-					mascot.environment.activeIE.topBorder.isOn(mascot.anchor) }">
+					mascot.environment.IE.onTop(mascot.anchor) }">
 					<動作参照 名前="跳ねる"/>
 					<動作参照 名前="立つ" 長さ="${100+Math.random()*100}" />
 				</動作>
@@ -315,7 +315,7 @@
 		<動作 名前="投げられる" 種類="複合" 繰り返し="false">
 			<動作参照 名前="落ちる" 初速X="${mascot.environment.cursor.dx}" 初速Y="${mascot.environment.cursor.dy}"/>
 			<動作 種類="選択">
-				<動作 種類="複合" 条件="${mascot.environment.floor.isOn(mascot.anchor) || mascot.environment.activeIE.topBorder.isOn(mascot.anchor) }">
+				<動作 種類="複合" 条件="${mascot.environment.floor.isOn(mascot.anchor) || mascot.environment.IE.onTop(mascot.anchor) }">
 					<動作参照 名前="跳ねる"/>
 					<動作参照 名前="立つ" 長さ="${100+Math.random()*100}" />
 				</動作>
@@ -448,105 +448,105 @@
 		</動作>
 
 		<動作 名前="IEの天井を歩く" 種類="複合" 繰り返し="false">
-			<動作参照 名前="歩く" 目的地X="${mascot.environment.activeIE.left+64+Math.random()*(mascot.environment.activeIE.width-128)}" />
+			<動作参照 名前="歩く" 目的地X="${mascot.curIE.left+64+Math.random()*(mascot.curIE.width-128)}" />
 		</動作>
 
 		<動作 名前="IEの天井を走る" 種類="複合" 繰り返し="false">
-			<動作参照 名前="走る" 目的地X="${mascot.environment.activeIE.left+64+Math.random()*(mascot.environment.activeIE.width-128)}" />
+			<動作参照 名前="走る" 目的地X="${mascot.curIE.left+64+Math.random()*(mascot.curIE.width-128)}" />
 		</動作>
 
 		<動作 名前="IEの天井でずりずり" 種類="複合" 繰り返し="false">
-			<動作参照 名前="ずりずり" 目的地X="${mascot.environment.activeIE.left+64+Math.random()*(mascot.environment.activeIE.width-128)}" />
+			<動作参照 名前="ずりずり" 目的地X="${mascot.curIE.left+64+Math.random()*(mascot.curIE.width-128)}" />
 		</動作>
 
 		<動作 名前="IEの天井の左の端っこで座る" 種類="複合" 繰り返し="false">
-			<動作参照 名前="歩く" 目的地X="${mascot.environment.activeIE.left+100+Math.random()*300}" />
+			<動作参照 名前="歩く" 目的地X="${mascot.curIE.left+100+Math.random()*300}" />
 			<動作参照 名前="立つ" 長さ="${100+Math.random()*100}" />
 			<動作参照 名前="座る" 長さ="${500+Math.random()*1000}" />
 		</動作>
 
 		<動作 名前="IEの天井の右の端っこで座る" 種類="複合" 繰り返し="false">
-			<動作参照 名前="歩く" 目的地X="${mascot.environment.activeIE.right-100-Math.random()*300}" />
+			<動作参照 名前="歩く" 目的地X="${mascot.curIE.right-100-Math.random()*300}" />
 			<動作参照 名前="立つ" 長さ="${100+Math.random()*100}" />
 			<動作参照 名前="座る" 長さ="${500+Math.random()*1000}" />
 		</動作>
 
 		<動作 名前="IEの天井の左の端っこから飛び降りる" 種類="複合" 繰り返し="false">
-			<動作参照 名前="歩く" 目的地X="${mascot.environment.activeIE.left+Math.random()*50}" />
+			<動作参照 名前="歩く" 目的地X="${mascot.curIE.left+Math.random()*50}" />
 			<動作参照 名前="立つ" 長さ="${50+Math.random()*50}" />
 			<動作参照 名前="落ちる" 初速X="${-15-Math.random()*5}" 初速Y="${-20-Math.random()*5}"/>
 			<動作参照 名前="跳ねる" />
 		</動作>
 
 		<動作 名前="IEの天井の右の端っこから飛び降りる" 種類="複合" 繰り返し="false">
-			<動作参照 名前="歩く" 目的地X="${mascot.environment.activeIE.right-Math.random()*50}" />
+			<動作参照 名前="歩く" 目的地X="${mascot.curIE.right-Math.random()*50}" />
 			<動作参照 名前="立つ" 長さ="${50+Math.random()*50}" />
 			<動作参照 名前="落ちる" 初速X="${15+Math.random()*5}" 初速Y="${-20-Math.random()*5}"/>
 			<動作参照 名前="跳ねる" />
 		</動作>
 
 		<動作 名前="走ってIEの天井の左の端っこで座る" 種類="複合" 繰り返し="false">
-			<動作参照 名前="走る" 目的地X="${mascot.environment.activeIE.left+100+Math.random()*300}" />
+			<動作参照 名前="走る" 目的地X="${mascot.curIE.left+100+Math.random()*300}" />
 			<動作参照 名前="立つ" 長さ="${100+Math.random()*100}" />
 			<動作参照 名前="座る" 長さ="${500+Math.random()*1000}" />
 		</動作>
 
 		<動作 名前="走ってIEの天井の右の端っこで座る" 種類="複合" 繰り返し="false">
-			<動作参照 名前="走る" 目的地X="${mascot.environment.activeIE.right-100-Math.random()*300}" />
+			<動作参照 名前="走る" 目的地X="${mascot.curIE.right-100-Math.random()*300}" />
 			<動作参照 名前="立つ" 長さ="${100+Math.random()*100}" />
 			<動作参照 名前="座る" 長さ="${500+Math.random()*1000}" />
 		</動作>
 
 		<動作 名前="走ってIEの天井の左の端っこから飛び降りる" 種類="複合" 繰り返し="false">
-			<動作参照 名前="走る" 目的地X="${mascot.environment.activeIE.left+Math.random()*50}" />
+			<動作参照 名前="走る" 目的地X="${mascot.curIE.left+Math.random()*50}" />
 			<動作参照 名前="落ちる" 初速X="${-15-Math.random()*5}" 初速Y="${-20-Math.random()*5}"/>
 			<動作参照 名前="跳ねる" />
 		</動作>
 
 		<動作 名前="走ってIEの天井の右の端っこから飛び降りる" 種類="複合" 繰り返し="false">
-			<動作参照 名前="走る" 目的地X="${mascot.environment.activeIE.right-Math.random()*50}" />
+			<動作参照 名前="走る" 目的地X="${mascot.curIE.right-Math.random()*50}" />
 			<動作参照 名前="落ちる" 初速X="${15+Math.random()*5}" 初速Y="${-20-Math.random()*5}"/>
 			<動作参照 名前="跳ねる" />
 		</動作>
 
 		<動作 名前="猛ダッシュでIEの天井の左の端っこから飛び降りる" 種類="複合" 繰り返し="false">
-			<動作参照 名前="猛ダッシュ" 目的地X="${mascot.environment.activeIE.left+Math.random()*20+20}" />
+			<動作参照 名前="猛ダッシュ" 目的地X="${mascot.curIE.left+Math.random()*20+20}" />
 			<動作参照 名前="落ちる" 初速X="${-5-Math.random()*2}" 初速Y="${-20-Math.random()*5}"/>
 			<動作参照 名前="跳ねる" />
 		</動作>
 
 		<動作 名前="猛ダッシュでIEの天井の右の端っこから飛び降りる" 種類="複合" 繰り返し="false">
-			<動作参照 名前="猛ダッシュ" 目的地X="${mascot.environment.activeIE.right-Math.random()*20-20}" />
+			<動作参照 名前="猛ダッシュ" 目的地X="${mascot.curIE.right-Math.random()*20-20}" />
 			<動作参照 名前="落ちる" 初速X="${5+Math.random()*2}" 初速Y="${-20-Math.random()*5}"/>
 			<動作参照 名前="跳ねる" />
 		</動作>
 
 		<動作 名前="IEの壁を途中まで登る" 種類="複合" 繰り返し="false">
-			<動作参照 名前="壁を登る" 目的地Y="${mascot.environment.activeIE.top+64 + Math.random()*(mascot.environment.activeIE.height-128)}" />
+			<動作参照 名前="壁を登る" 目的地Y="${mascot.curIE.top+64 + Math.random()*(mascot.curIE.height-128)}" />
 		</動作>
 
 		<動作 名前="IEの壁を登る" 種類="複合" 繰り返し="false">
-			<動作参照 名前="壁を登る" 目的地Y="#{mascot.environment.activeIE.top+64}" />
+			<動作参照 名前="壁を登る" 目的地Y="#{mascot.curIE.top+64}" />
 			<動作参照 名前="変位" Y="-64" />
 			<動作参照 名前="座る" 長さ="5" />
 			<動作参照 名前="立つ" 長さ="${10+Math.random()*10}" />
-			<動作参照 名前="歩く" 目的地X="${mascot.lookRight ? mascot.environment.activeIE.left+Math.random()*100 : mascot.environment.activeIE.right-Math.random*100}" />
+			<動作参照 名前="歩く" 目的地X="${mascot.lookRight ? mascot.curIE.left+Math.random()*100 : mascot.curIE.right-Math.random*100}" />
 		</動作>
 
 		<動作 名前="IEの下辺を伝う" 種類="複合" 繰り返し="false">
-			<動作参照 名前="天井を伝う" 目的地X="${mascot.environment.activeIE.left+64+(Math.random()*mascot.environment.activeIE.width-128)}" />
+			<動作参照 名前="天井を伝う" 目的地X="${mascot.curIE.left+64+(Math.random()*mascot.curIE.width-128)}" />
 		</動作>
 
 		<動作 名前="IEの下辺から左の壁によじのぼる" 種類="複合" 繰り返し="false">
-			<動作参照 名前="天井を伝う" 目的地X="#{mascot.environment.activeIE.left}" />
+			<動作参照 名前="天井を伝う" 目的地X="#{mascot.curIE.left}" />
 			<動作参照 名前="振り向く" />
-			<動作参照 名前="壁を登る" 目的地Y="#{mascot.environment.activeIE.bottom-64}" />
+			<動作参照 名前="壁を登る" 目的地Y="#{mascot.curIE.bottom-64}" />
 		</動作>
 
 		<動作 名前="IEの下辺から右の壁によじのぼる" 種類="複合" 繰り返し="false">
-			<動作参照 名前="天井を伝う" 目的地X="#{mascot.environment.activeIE.right}" />
+			<動作参照 名前="天井を伝う" 目的地X="#{mascot.curIE.right}" />
 			<動作参照 名前="振り向く" />
-			<動作参照 名前="壁を登る" 目的地Y="#{mascot.environment.activeIE.bottom-64}" />
+			<動作参照 名前="壁を登る" 目的地Y="#{mascot.curIE.bottom-64}" />
 		</動作>
 
 		<動作 名前="左の壁に飛びつく" 種類="複合" 繰り返し="false">
