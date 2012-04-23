@@ -74,8 +74,6 @@ class X11TranslucentWindow extends JWindow implements TranslucentWindow {
 	@Override
 	public void setVisible(final boolean b) {
 		super.setVisible(b);
-        win = new X11.Window((int)Native.getWindowID(alphaWindow));
-		setToDock();
 		if (b) {
 			com.sun.jna.platform.WindowUtils.setWindowTransparent(this, true);
 		}

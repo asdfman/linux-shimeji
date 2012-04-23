@@ -72,9 +72,12 @@ public class Main {
 		// トレイアイコンを作成する
 		try {
 			createTrayIcon();
-		} catch(UnsupportedOperationException e) {
+		} catch (UnsupportedOperationException e) {
 			System.out.println("System tray not supported");
+		} catch (AWTException e) {
+			System.out.println("System tray initialization failed");
 		}
+
 
 		// しめじを一匹作成する
 		createMascot();
