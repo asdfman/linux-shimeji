@@ -72,10 +72,8 @@ public class Main {
 		// トレイアイコンを作成する
 		try {
 			createTrayIcon();
-		} catch (UnsupportedOperationException e) {
+		} catch (Exception e) {
 			System.out.println("System tray not supported");
-		} catch (AWTException e) {
-			System.out.println("System tray initialization failed");
 		}
 
 
