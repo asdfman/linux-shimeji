@@ -40,7 +40,7 @@ Note that the program comes pre-compiled and you do not need to build unless you
 
 window.conf - set window dimensions to match your window decorations. If you're using a plain WM with no decorations, zero on all values or an empty file should be accurate
 
-titles.conf - enter window titles, one per line, case sensitive. The Mascots will interact with these windows only. If no window titles are specified, all windows will be interacted with. Leaving this file empty should be ideal for most people.
+titles.conf - enter window titles, one per line, case insensitive. The Mascots will interact with these windows only. If no window titles are specified, all windows will be interacted with. Leaving this file empty should be ideal for most people.
 
 For more information refer to the configuration files. 
 

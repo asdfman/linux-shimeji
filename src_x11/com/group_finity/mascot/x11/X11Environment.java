@@ -83,7 +83,7 @@ class X11Environment extends Environment {
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			String strLine;
 			while ((strLine = br.readLine()) != null) {
-				titles.add(strLine.trim());
+				titles.add(strLine.trim().toLowerCase());
 			}
 			br.close();
 			in.close();
@@ -140,14 +140,23 @@ class X11Environment extends Environment {
 					// with type 'dock' or skip taskbar state set invisible every 5th tick
 						if (cleanUp) {
 							String state;
-							boolean notOnDesktop = (allWindows[i].getDesktop() != curDesktop);
+							int desktop = allWindows[i].getDesktop();
+							boolean notOnDesktop = ((desktop != curDesktop)&&(desktop != -1));
 							state = allWindows[i].getState();
-							boolean isDock = (allWindows[i].getType().contains("-"));
-							if (notOnDesktop||isDock||state.contains("M")||state.contains("E")||
-								state.contains("D")||state.contains("O")) {
-								IE.get(id).setVisible(false);
+							if (!checkTitles) {
+								boolean isDock = (allWindows[i].getType().contains("-"));
+								if (notOnDesktop||isDock||state.contains("M")||state.contains("E")||
+									state.contains("D")||state.contains("O")) {
+									IE.get(id).setVisible(false);
+								} else {
+									IE.get(id).setVisible(true);
+								}
 							} else {
-								IE.get(id).setVisible(true);
+								if (notOnDesktop||state.contains("M")) {
+									IE.get(id).setVisible(false);
+								} else {
+									IE.get(id).setVisible(true);
+								}
 							}
 						}
 						r = a.toRectangle();
