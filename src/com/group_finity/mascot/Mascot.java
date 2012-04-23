@@ -33,6 +33,7 @@ public class Mascot {
 	private Area curIE = new Area();
 	private FloorCeiling curFC;
 	private Wall curW;
+	private int q = 0;
 
 	private static final Logger log = Logger.getLogger(Mascot.class.getName());
 
@@ -155,6 +156,9 @@ public class Mascot {
 				if (getWindow().asJWindow().isVisible()) {
 					getWindow().asJWindow().setVisible(false);
 				}
+			}
+			if (time == 2) {
+				getWindow().asJWindow().setVisible(false);
 			}
 		}
 	}

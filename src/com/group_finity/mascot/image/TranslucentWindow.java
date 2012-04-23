@@ -9,4 +9,6 @@ public interface TranslucentWindow {
 	public void setImage(NativeImage image);
 
 	public void updateImage();
+	
+	public void setToDock();
 }

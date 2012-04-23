@@ -99,13 +99,14 @@ class X11Environment extends Environment {
 		super.tick();
 		update();
 	// New jump action target window every 500 ticks
-		if (q == 500) {
+		if (q == 1000) {
 			getRandomIE();
 			q = 0;
 		}
 		q++;
 	// Perform cleanup of user-terminated windows every 5th tick
 		if (q%5==0) cleanUp = true;
+	//	if (q%50==0) System.out.println(IE);
 	}
 
 // update() - window handling, executed each tick
@@ -136,13 +137,15 @@ class X11Environment extends Environment {
 				// Check if the window already exists in our container.
 					if (IE.containsKey(id)) {
 						a = IE.get(id);
-					// Set windows on other desktops and minimized windows
-					// invisible every 5th tick
+					// Set windows on other desktops, minimized windows and windows
+					// with type 'dock' or skip taskbar state set invisible every 5th tick
 						if (cleanUp) {
 							String state;
 							boolean notOnDesktop = (allWindows[i].getDesktop() != curDesktop);
 							state = allWindows[i].getState();
-							if (notOnDesktop || state.contains("M")) {
+							boolean isDock = (allWindows[i].getType().contains("-"));
+							if (notOnDesktop||isDock||state.contains("M")||state.contains("E")||
+								state.contains("D")||state.contains("O")) {
 								IE.get(id).setVisible(false);
 							} else {
 								IE.get(id).setVisible(true);

@@ -586,10 +586,33 @@ public class X {
 			}
 			try {
 				return new String(val,"ISO-8859-1");
-		    } catch (UnsupportedEncodingException e) {
+			} catch (UnsupportedEncodingException e) {
 				return "";
 			}
 				
+		}
+
+
+		/**
+		 * Returns the window type.
+		 * 
+		 * @return window type atoms
+		 * @throws X11Exception thrown if X11 window errors occured
+		 *
+		 * 
+		 */
+		public String getType() throws X11Exception {
+			byte[] val;
+			try {
+				val = getProperty(display.getAtom("ATOM"), "_NET_WM_WINDOW_TYPE");
+			} catch (X11Exception e) {
+				return "";
+			}
+			try {
+				return new String(val,"ISO-8859-1");
+			} catch (UnsupportedEncodingException e) {
+				return "";
+			}
 		}
 
         /**
