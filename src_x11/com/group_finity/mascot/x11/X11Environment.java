@@ -98,7 +98,7 @@ class X11Environment extends Environment {
 	public void tick() {
 		super.tick();
 		update();
-	// New jump action target window every 500 ticks
+	// New jump action target window every 1000 ticks
 		if (q == 1000) {
 			getRandomIE();
 			q = 0;
@@ -106,7 +106,6 @@ class X11Environment extends Environment {
 		q++;
 	// Perform cleanup of user-terminated windows every 5th tick
 		if (q%5==0) cleanUp = true;
-	//	if (q%50==0) System.out.println(IE);
 	}
 
 // update() - window handling, executed each tick
