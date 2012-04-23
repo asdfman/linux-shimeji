@@ -57,7 +57,11 @@ This version uses Japanese Actions.xml and Behavior.xml. There's a good chance y
 To navigate your way through the .xml files more comfortably, I recommend using an english version of the file (from the Shimeji-EE project) as a roadmap (http://code.google.com/p/shimeji-ee/). 
 
 
-5. LICENSE
+5. KNOWN ISSUES
+
+If you encounter trayicon-sized artifacts in the top-left corner of your screen, it's caused by an issue with Compton/XCompmgr and Java system tray spawning. I was unable to solve the issue from within this program so I wrote a patch for Compton instead : https://gist.github.com/2472719
+
+6. LICENSE
 
 This project inherits the ZLIB/LIBPNG license of the original program (www.group-finity.com/Shimeji). 
 The included Java Native Access library (http://github.com/twall/jna) is licensed under the LGPL. The Mozilla Rhino Javascript Engine (www.mozilla.org/rhino)
