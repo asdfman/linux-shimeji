@@ -61,7 +61,7 @@
 				</次の行動リスト>
 			</行動>
 
-			<行動 名前="分裂する" 頻度="50" 条件="#{mascot.totalCount &lt; maxCount}" />
+			<行動 名前="分裂する" 頻度="25" 条件="#{mascot.totalCount &lt; maxCount}" />
 		</条件>
 
 		<!-- 壁に接しているとき -->
@@ -104,7 +104,7 @@
 				条件="#{mascot.anchor.x &gt;= mascot.environment.activeIE.left-200 &amp;&amp;
 				mascot.anchor.x &lt; mascot.environment.activeIE.right+200}" />
 
-			<行動 名前="引っこ抜く" 頻度="150" 条件="#{mascot.totalCount &lt; maxCount}" />
+			<行動 名前="引っこ抜く" 頻度="50" 条件="#{mascot.totalCount &lt; maxCount}" />
 		</条件>
 
 		<!-- ワークエリアの壁に接しているとき -->
