@@ -61,6 +61,7 @@ To navigate your way through the .xml files more comfortably, I recommend using 
 
 If you encounter trayicon-sized artifacts in the top-left corner of your screen, it's caused by an issue with Compton/XCompmgr and Java system tray spawning. I was unable to solve the issue from within this program so I wrote a patch for Compton instead : https://gist.github.com/2472719
 
+
 6. LICENSE
 
 This project inherits the ZLIB/LIBPNG license of the original program (www.group-finity.com/Shimeji). 
