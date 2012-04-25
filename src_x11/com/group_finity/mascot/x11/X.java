@@ -573,7 +573,7 @@ public class X {
 		public int getState() throws X11Exception {
 			try {
 				return getIntProperty(display.getAtom("ATOM"), "_NET_WM_STATE");
-			} catch (X11Exception e) {
+			} catch (Exception e) {
 				return 0;
 			}
 		}
@@ -589,7 +589,7 @@ public class X {
 		public int getType() throws X11Exception {
 			try {
 				return getIntProperty(display.getAtom("ATOM"), "_NET_WM_WINDOW_TYPE");
-			} catch (X11Exception e) {
+			} catch (Exception e) {
 				return 0;
 			}
 		}
