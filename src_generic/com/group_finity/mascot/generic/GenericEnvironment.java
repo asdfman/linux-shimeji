@@ -14,6 +14,7 @@ class GenericEnvironment extends Environment {
 
     private static Area activeIE;
 	private static WindowContainer IE;
+	private static int dockValue;
 
 	@Override
 	public void tick() {
@@ -43,6 +44,11 @@ class GenericEnvironment extends Environment {
 	@Override
 	public WindowContainer getIE() {
 		return this.IE;
+	}
+
+	@Override
+	public int getDockValue() {
+		return this.dockValue;
 	}
 
 }

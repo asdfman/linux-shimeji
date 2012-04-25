@@ -56,6 +56,7 @@ class X11Environment extends Environment {
 	private ArrayList<Number> badStateList = new ArrayList<Number>();
 	private ArrayList<Number> badTypeList = new ArrayList<Number>();
 	private int minimizedValue;
+	private int dockValue;
 		
 // init() - set work area and read configuration files	
 	X11Environment() {
@@ -65,6 +66,7 @@ class X11Environment extends Environment {
 		minimizedValue = Integer.decode(display.getAtom("_NET_WM_STATE_HIDDEN").toString());
 		badStateList.add(Integer.decode(display.getAtom("_NET_WM_STATE_ABOVE").toString()));
 		badTypeList.add(Integer.decode(display.getAtom("_NET_WM_WINDOW_TYPE_DOCK").toString()));
+		dockValue = Integer.decode(display.getAtom("_NET_WM_WINDOW_TYPE_DOCK").toString());
 		badTypeList.add(Integer.decode(display.getAtom("_NET_WM_WINDOW_TYPE_MENU").toString()));
 		badTypeList.add(Integer.decode(display.getAtom("_NET_WM_WINDOW_TYPE_SPLASH").toString()));
 		badTypeList.add(Integer.decode(display.getAtom("_NET_WM_WINDOW_TYPE_DIALOG").toString()));
@@ -248,6 +250,10 @@ class X11Environment extends Environment {
 			i++;
 		}
 		activeIE = IE.get(iter.next());
+	}
+
+	public int getDockValue() {
+		return dockValue;
 	}
 
 	@Override

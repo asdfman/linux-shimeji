@@ -17,6 +17,8 @@ public abstract class Environment {
 
 	public abstract Area getActiveIE();
 
+	public abstract int getDockValue();
+
 	public void moveActiveIE(final Point point) {}
 
 	public void restoreIE() {}

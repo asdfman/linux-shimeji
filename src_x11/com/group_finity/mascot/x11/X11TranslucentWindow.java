@@ -17,7 +17,6 @@ import com.sun.jna.platform.unix.X11.Display;
 import com.sun.jna.platform.unix.X11.GC;
 import com.sun.jna.ptr.IntByReference;
 
-
 /**
  * The image window with alpha.
  * {@link #setImage(WindowsNativeImage)} set in {@link WindowsNativeImage} can be displayed on the desktop.
@@ -45,11 +44,9 @@ class X11TranslucentWindow extends JWindow implements TranslucentWindow {
     private X11.Window win = null;
 	private float alpha = 1.0f;
 	private JWindow alphaWindow = this;
-	private IntByReference dockAtom = new IntByReference(301);
 
 	public X11TranslucentWindow() {
 		super(com.sun.jna.platform.WindowUtils.getAlphaCompatibleGraphicsConfiguration());
-		setToDock();
 		this.init();
 		this.panel = new JPanel() { 
 			/**
@@ -89,7 +86,6 @@ class X11TranslucentWindow extends JWindow implements TranslucentWindow {
         try {
                 if (win == null) {
                 	win = new X11.Window((int)Native.getWindowID(alphaWindow));
-					setToDock();
                 } 
                 int w = image.getWidth(null);
                 int h = image.getHeight(null);
@@ -160,7 +156,8 @@ class X11TranslucentWindow extends JWindow implements TranslucentWindow {
 		return this.alpha;
 	}
 	
-	public void setToDock() {
+	public void setToDock(int value) {
+		IntByReference dockAtom = new IntByReference(value);
 		x11.XChangeProperty(dpy, win, x11.XInternAtom(dpy, "_NET_WM_WINDOW_TYPE", false),
 							x11.XA_ATOM, 32, x11.PropModeReplace, dockAtom.getPointer(), 1);
 	}

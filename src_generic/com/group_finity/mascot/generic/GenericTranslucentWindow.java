@@ -78,7 +78,7 @@ class GenericTranslucentWindow extends JWindow implements TranslucentWindow {
 	}
 	
 	@Override
-	public void setToDock() {
+	public void setToDock(int value) {
 	}
 
 	@Override

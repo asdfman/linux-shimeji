@@ -195,4 +195,7 @@ public class MascotEnvironment {
 		return impl.isScreenLeftRight(mascot.getAnchor());
 	}
 
+	public int getDockValue() {
+		return impl.getDockValue();
+	}
 }
