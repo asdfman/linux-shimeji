@@ -67,6 +67,8 @@ class X11Environment extends Environment {
 		badStateList.add(Integer.decode(display.getAtom("_NET_WM_STATE_ABOVE").toString()));
 		badTypeList.add(Integer.decode(display.getAtom("_NET_WM_WINDOW_TYPE_DOCK").toString()));
 		dockValue = Integer.decode(display.getAtom("_NET_WM_WINDOW_TYPE_DOCK").toString());
+		System.out.println("Detected dock value as: "+dockValue);
+		System.out.println("Detected normal window value as: "+Integer.decode(display.getAtom("_NET_WM_WINDOW_TYPE_NORMAL").toString()));
 		badTypeList.add(Integer.decode(display.getAtom("_NET_WM_WINDOW_TYPE_MENU").toString()));
 		badTypeList.add(Integer.decode(display.getAtom("_NET_WM_WINDOW_TYPE_SPLASH").toString()));
 		badTypeList.add(Integer.decode(display.getAtom("_NET_WM_WINDOW_TYPE_DIALOG").toString()));
