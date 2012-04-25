@@ -574,7 +574,6 @@ public class X {
 			try {
 				return getIntProperty(display.getAtom("ATOM"), "_NET_WM_STATE");
 			} catch (Exception e) {
-				System.out.println("1");
 				return 0;
 			}
 		}
@@ -591,7 +590,6 @@ public class X {
 			try {
 				return getIntProperty(display.getAtom("ATOM"), "_NET_WM_WINDOW_TYPE");
 			} catch (Exception e) {
-				System.out.println("2");
 				return 0;
 			}
 		}

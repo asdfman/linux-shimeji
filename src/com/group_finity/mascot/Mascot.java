@@ -156,13 +156,13 @@ public class Mascot {
 					getWindow().asJWindow().setVisible(false);
 				}
 			}
-			if (time == 2) {
-				getWindow().setToDock(environment.getDockValue());
-				getWindow().asJWindow().setVisible(false);
-			}
-			if (time == 3) {
-				getWindow().asJWindow().setVisible(false);
-			}
+			//if (time == 2) {
+				//getWindow().setToDock(environment.getDockValue());
+				//getWindow().asJWindow().setVisible(false);
+			//}
+			//if (time == 3) {
+				//getWindow().asJWindow().setVisible(false);
+			//}
 		}
 	}
 
