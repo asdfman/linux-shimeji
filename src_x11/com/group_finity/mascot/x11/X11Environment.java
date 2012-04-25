@@ -52,10 +52,24 @@ class X11Environment extends Environment {
 // user-terminated windows
 	private ArrayList<Number> curActiveWin = new ArrayList<Number>();
 
+// Storage for values of certain state/type atoms on the current display
+	private ArrayList<Number> badStateList = new ArrayList<Number>();
+	private ArrayList<Number> badTypeList = new ArrayList<Number>();
+	private int minimizedValue;
+	private int dockValue;
 		
 // init() - set work area and read configuration files	
 	X11Environment() {
 		workArea.set(getWorkAreaRect());
+		badStateList.add(Integer.decode(display.getAtom("_NET_WM_STATE_MODAL").toString()));
+		badStateList.add(Integer.decode(display.getAtom("_NET_WM_STATE_HIDDEN").toString()));
+		minimizedValue = Integer.decode(display.getAtom("_NET_WM_STATE_HIDDEN").toString());
+		badStateList.add(Integer.decode(display.getAtom("_NET_WM_STATE_ABOVE").toString()));
+		badTypeList.add(Integer.decode(display.getAtom("_NET_WM_WINDOW_TYPE_DOCK").toString()));
+		dockValue = Integer.decode(display.getAtom("_NET_WM_WINDOW_TYPE_DOCK").toString());
+		badTypeList.add(Integer.decode(display.getAtom("_NET_WM_WINDOW_TYPE_MENU").toString()));
+		badTypeList.add(Integer.decode(display.getAtom("_NET_WM_WINDOW_TYPE_SPLASH").toString()));
+		badTypeList.add(Integer.decode(display.getAtom("_NET_WM_WINDOW_TYPE_DIALOG").toString()));
 		try {
 			FileInputStream fstream = new FileInputStream("window.conf");
 			DataInputStream in = new DataInputStream(fstream);
@@ -83,7 +97,7 @@ class X11Environment extends Environment {
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			String strLine;
 			while ((strLine = br.readLine()) != null) {
-				titles.add(strLine.trim());
+				titles.add(strLine.trim().toLowerCase());
 			}
 			br.close();
 			in.close();
@@ -139,15 +153,22 @@ class X11Environment extends Environment {
 					// Set windows on other desktops, minimized windows and windows
 					// with type 'dock' or skip taskbar state set invisible every 5th tick
 						if (cleanUp) {
-							String state;
-							boolean notOnDesktop = (allWindows[i].getDesktop() != curDesktop);
-							state = allWindows[i].getState();
-							boolean isDock = (allWindows[i].getType().contains("-"));
-							if (notOnDesktop||isDock||state.contains("M")||state.contains("E")||
-								state.contains("D")||state.contains("O")) {
-								IE.get(id).setVisible(false);
+							int desktop = allWindows[i].getDesktop();
+							boolean badDesktop = ((desktop != curDesktop)&&(desktop != -1));
+							boolean badState = checkState(allWindows[i].getState());
+							if (!checkTitles) {
+								boolean badType = checkType(allWindows[i].getType());
+								if (badDesktop||badType||badState) {
+									IE.get(id).setVisible(false);
+								} else {
+									IE.get(id).setVisible(true);
+								}
 							} else {
-								IE.get(id).setVisible(true);
+								if (badDesktop||badState) {
+									IE.get(id).setVisible(false);
+								} else {
+									IE.get(id).setVisible(true);
+								}
 							}
 						}
 						r = a.toRectangle();
@@ -191,11 +212,26 @@ class X11Environment extends Environment {
 	}
 	
 	private boolean isIE(String titlebar) {
-		for (int i=0;i<titles.size();i++) {
-			if (titlebar.contains(titles.get(i))) return true;
+		for (String s : titles) {
+			if (titlebar.contains(s)) return true;
 		}
 		return false;
 	} 
+
+	private boolean checkState(int state) {
+		if (!checkTitles) {
+			if (badStateList.contains(state)) return true;
+			return false;
+		} else {
+			if (state == minimizedValue) return true;
+			return false;
+		}
+	}
+
+	private boolean checkType(int type) {
+		if (badTypeList.contains(type)) return true;	
+		return false;
+	}
 
 	private Rectangle getWorkAreaRect() {
 		Rectangle r1 = getScreen().toRectangle();
@@ -214,6 +250,10 @@ class X11Environment extends Environment {
 			i++;
 		}
 		activeIE = IE.get(iter.next());
+	}
+
+	public int getDockValue() {
+		return dockValue;
 	}
 
 	@Override

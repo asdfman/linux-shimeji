@@ -24,8 +24,33 @@ public class ActionRef implements IActionBuilder {
 
 		this.name = refNode.getAttribute("名前");
 		this.getParams().putAll(refNode.getAttributes());
-
 		log.log(Level.INFO, "動作参照読み込み({0})", this);
+
+	// Convert every non-jump ActionReference to multiwindow format.
+	// Necessary for using 'standard' configurations. 
+		if (!name.contains("ジャンプ")) {
+			String s = params.get("目的地X");
+			if (s != null) {
+				if (s.contains("environment.activeIE")) {
+					s = s.replaceAll("environment.activeIE","curIE");
+					params.put("目的地X",s);
+				}
+			}
+			s = params.get("目的地Y");
+			if (s != null) {
+				if (s.contains("environment.activeIE")) {
+					s = s.replaceAll("environment.activeIE","curIE");
+					params.put("目的地Y",s);
+				}
+			}
+			s = params.get("条件");
+			if (s != null) {
+				if (s.contains("environment.activeIE")) {
+					s = s.replaceAll("environment.activeIE","curIE");
+					params.put("目的地X",s);
+				}
+			}
+		}
 	}
 
 	@Override

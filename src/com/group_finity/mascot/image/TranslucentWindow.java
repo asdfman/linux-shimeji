@@ -10,5 +10,5 @@ public interface TranslucentWindow {
 
 	public void updateImage();
 	
-	public void setToDock();
+	public void setToDock(int value);
 }

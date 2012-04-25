@@ -17,7 +17,6 @@ public abstract class Variable {
 				result = new Constant(parseConstant(source));
 			}
 		}
-		
 		return result;
 	}
 

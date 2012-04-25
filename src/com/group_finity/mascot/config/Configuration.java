@@ -69,7 +69,6 @@ public class Configuration {
 
 	private void loadBehaviors(final Entry list, final List<String> conditions) {
 		for (final Entry node : list.getChildren()) {
-
 			if (node.getName().equals("条件")) {
 
 				final List<String> newConditions = new ArrayList<String>(conditions);

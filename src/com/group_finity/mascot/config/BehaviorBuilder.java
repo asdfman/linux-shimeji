@@ -26,7 +26,7 @@ public class BehaviorBuilder {
 
 	private final String actionName;
 
-	private final int frequency;
+	private int frequency;
 
 	private final List<String> conditions;
 
@@ -43,6 +43,19 @@ public class BehaviorBuilder {
 		this.frequency = Integer.parseInt(behaviorNode.getAttribute("頻度"));
 		this.conditions = new ArrayList<String>(conditions);
 		this.getConditions().add(behaviorNode.getAttribute("条件"));
+
+	// Conversion to multiwindow environment checks
+	// Also set IE throw frequency to 0
+		if (name.contains("投げる")) frequency = 0;
+		if (!name.contains("に飛びつく")) {
+			if (conditions != null) {
+				for (int i=0;i<conditions.size();i++) {
+					String s = conditions.get(i);
+					s = s.replaceAll("environment.activeIE","curIE");
+					conditions.set(i,s);
+				}
+			}
+		}
 
 		log.log(Level.INFO, "行動読み込み開始({0})", this);
 

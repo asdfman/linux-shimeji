@@ -4,4 +4,5 @@
 *.class
 *.log
 bin/
-
+conf2/
+img2/
