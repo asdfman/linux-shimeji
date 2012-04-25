@@ -101,8 +101,8 @@ public class Mascot {
 		log.log(Level.INFO, "マスコット生成({0})", this);
 
 		// 常に最善面に表示
-//		getWindow().asJWindow().setAlwaysOnTop(true);
-//		getWindow().asJWindow().setBounds(0,0,128,128);
+		getWindow().asJWindow().setAlwaysOnTop(true);
+		getWindow().asJWindow().setBounds(0,0,128,128);
 
 		// マウスハンドラを登録
 		getWindow().asJWindow().addMouseListener(new MascotEventHandler(this));
@@ -156,9 +156,9 @@ public class Mascot {
 					getWindow().asJWindow().setVisible(false);
 				}
 			}
-			getWindow().setToDock(environment.getDockValue());
-//			getWindow().asJWindow().setVisible(false);
-			
+			if (time == 2 || time == 100) {
+				getWindow().setToDock(environment.getDockValue());
+			}
 			if (time == 3) {
 				getWindow().asJWindow().setVisible(false);
 			}
