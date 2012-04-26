@@ -35,36 +35,27 @@ public class Configuration {
 		log.log(Level.INFO, "設定読み込み開始");
 
 		for (final Entry constant : configurationNode.selectChildren("定数")) {
-
 			log.log(Level.INFO, "定数...");
-
 			constants.put( constant.getAttribute("名前"), constant.getAttribute("値") );
 		}
 
 		for (final Entry list : configurationNode.selectChildren("動作リスト")) {
-
 			log.log(Level.INFO, "動作リスト...");
-
 			for (final Entry node : list.selectChildren("動作")) {
-
 				final ActionBuilder action = new ActionBuilder(this, node);
-
 				if ( this.getActionBuilders().containsKey(action.getName())) {
 					throw new ConfigurationException("動作の名前が重複しています:"+action.getName());
 				}
-
 				this.getActionBuilders().put(action.getName(), action);
 			}
 		}
 
 		for (final Entry list : configurationNode.selectChildren("行動リスト")) {
-
 			log.log(Level.INFO, "行動リスト...");
-
 			loadBehaviors(list, new ArrayList<String>());
 		}
-
 		log.log(Level.INFO, "設定読み込み完了");
+		
 	}
 
 	private void loadBehaviors(final Entry list, final List<String> conditions) {
