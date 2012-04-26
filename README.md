@@ -59,19 +59,19 @@ To navigate your way through the .xml files more comfortably, I recommend using 
 
 A conversion file for English .xml files used in the EE-version is included and any ShimejiEE mascot can be made fully functional with this version. Make sure you use a Japanese Mascot.xsd XML-schema after the conversion, do not replace it with the English one. The filenames that are read by this version are the same as in the current official Shimeji, 'Actions.xml' and 'Behavior.xml'. Keep in mind that all images should go into the 'img', no subdirectories inside will be read, same goes for configurations and the 'conf' directory.
 
-You will find 'conv.sed' in the 'conf' directory. You can also find it separately [here](https://gist.github.com/2497639).
+You will find 'conv.sed' in the 'conf' directory. You can also find it separately [here](http://gist.github.com/2497639).
 
 Detailed usage instructions can be found within the file.
 
 
 Known issues
 ===============
-If you encounter trayicon-sized artifacts in the top-left corner of your screen, it's caused by an issue with Compton/XCompmgr and Java system tray spawning. I was unable to solve the issue from within this program so I wrote a [patch for Compton](https://gist.github.com/2472719) instead.
+If you encounter trayicon-sized artifacts in the top-left corner of your screen, it's caused by an issue with Compton/XCompmgr and Java system tray spawning. I was unable to solve the issue from within this program so I wrote a [patch for Compton](http://gist.github.com/2472719) instead.
 
 
 License
 ==========
-This project inherits the ZLIB/LIBPNG license of the original [program](www.group-finity.com/Shimeji). 
-The included [Java Native Access](http://github.com/twall/jna) library is licensed under the LGPL. [The Mozilla Rhino Javascript Engine](www.mozilla.org/rhino)
+This project inherits the ZLIB/LIBPNG license of the original [program](http://www.group-finity.com/Shimeji). 
+The included [Java Native Access](http://github.com/twall/jna) library is licensed under the LGPL. [The Mozilla Rhino Javascript Engine](http://www.mozilla.org/rhino)
 is licensed under the Mozilla Public License.
 
