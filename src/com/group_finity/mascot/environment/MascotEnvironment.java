@@ -26,30 +26,30 @@ public class MascotEnvironment {
 	 */
 	public Area getWorkArea() {
 
-		if ( currentWorkArea!=null ) {
-			// NOTE Windows マルチモニタ対応 Windowsのワークエリアはメインのスクリーンより小さい。
-			// 現在のスクリーンがワークエリアを含んでおり、かつマスコットがワークエリアに含まれているならばワークエリアを優先する。
-			if ( currentWorkArea!=impl.getWorkArea() && currentWorkArea.toRectangle().contains(impl.getWorkArea().toRectangle()) ) {
-				if (impl.getWorkArea().contains(mascot.getAnchor().x, mascot.getAnchor().y)) {
-					currentWorkArea = impl.getWorkArea();
-					return currentWorkArea;
-				}
-			}
+		//if ( currentWorkArea!=null ) {
+			 //NOTE Windows マルチモニタ対応 Windowsのワークエリアはメインのスクリーンより小さい。
+			 //現在のスクリーンがワークエリアを含んでおり、かつマスコットがワークエリアに含まれているならばワークエリアを優先する。
+			//if ( currentWorkArea!=impl.getWorkArea() && currentWorkArea.toRectangle().contains(impl.getWorkArea().toRectangle()) ) {
+				//if (impl.getWorkArea().contains(mascot.getAnchor().x, mascot.getAnchor().y)) {
+					//currentWorkArea = impl.getWorkArea();
+					//return currentWorkArea;
+				//}
+			//}
 
-			// NOTE マルチモニタ対応 マスコットが複数のモニタに同時に含まれる場合があるが、
-			// その場合は現在のモニタを優先する
-			if ( currentWorkArea.contains(mascot.getAnchor().x, mascot.getAnchor().y) ) {
-				return currentWorkArea;
-			}
-		}
+			 //NOTE マルチモニタ対応 マスコットが複数のモニタに同時に含まれる場合があるが、
+			 //その場合は現在のモニタを優先する
+			//if ( currentWorkArea.contains(mascot.getAnchor().x, mascot.getAnchor().y) ) {
+				//return currentWorkArea;
+			//}
+		//}
 
-		// まずワークエリアに含まれているか調べる
-		if (impl.getWorkArea().contains(mascot.getAnchor().x, mascot.getAnchor().y)) {
-			currentWorkArea = impl.getWorkArea();
-			return currentWorkArea;
-		}
+		 //まずワークエリアに含まれているか調べる
+		//if (impl.getWorkArea().contains(mascot.getAnchor().x, mascot.getAnchor().y)) {
+			//currentWorkArea = impl.getWorkArea();
+			//return currentWorkArea;
+		//}
 
-		// 各モニタに含まれているか調べる
+		 //各モニタに含まれているか調べる
 		for( Area area: impl.getScreens() ) {
 			if ( area.contains(mascot.getAnchor().x, mascot.getAnchor().y) ) {
 				currentWorkArea = area;
@@ -83,7 +83,7 @@ public class MascotEnvironment {
 			FloorCeiling fc = getIE().getBottom(mascot.getAnchor());
 			if (!checkLayering(fc.getArea())) {
 				mascot.setCurFC(null);
-				return NotOnBorder.INSTANCE;
+				return NotOnVisibleBorder.INSTANCE;
 			}
 			mascot.setCurFC(fc);
 			return fc;
@@ -120,7 +120,7 @@ public class MascotEnvironment {
 			FloorCeiling fc = getIE().getTop(mascot.getAnchor());
 			if (!checkLayering(fc.getArea())) {
 				mascot.setCurFC(null);
-				return NotOnBorder.INSTANCE;
+				return NotOnVisibleBorder.INSTANCE;
 			}
 			if (currentWorkArea == null) currentWorkArea = impl.getWorkArea();
 		// Don't let the mascot get footing on any window ceiling within 64px
@@ -169,7 +169,7 @@ public class MascotEnvironment {
 				Wall w = getIE().getLeft(mascot.getAnchor());
 				if (!checkLayering(w.getArea())) {
 					mascot.setCurW(null);
-					return NotOnBorder.INSTANCE;
+					return NotOnVisibleBorder.INSTANCE;
 				}
 				mascot.setCurW(w);
 				return w;
@@ -187,7 +187,7 @@ public class MascotEnvironment {
 				Wall w = getIE().getRight(mascot.getAnchor());
 				if (!checkLayering(w.getArea())) {
 					mascot.setCurW(null);
-					return NotOnBorder.INSTANCE;
+					return NotOnVisibleBorder.INSTANCE;
 				}
 				mascot.setCurW(w);
 				return w;
@@ -241,7 +241,7 @@ public class MascotEnvironment {
 			Rectangle rect = rects.get(i);
 			if (r.intersects(rect)) {
 				Rectangle isect = r.intersection(rect);
-				isect.setSize((int)isect.getWidth()+1,(int)isect.getHeight()+128);
+				isect.setRect(isect.x-1,isect.y,isect.getWidth()+2,isect.getHeight()+128);
 				if (isect.contains(mascot.getAnchor())) {
 					return false;
 				}

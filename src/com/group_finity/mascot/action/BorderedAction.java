@@ -10,7 +10,7 @@ import com.group_finity.mascot.environment.Border;
 import com.group_finity.mascot.exception.LostGroundException;
 import com.group_finity.mascot.exception.VariableException;
 import com.group_finity.mascot.script.VariableMap;
-import com.group_finity.mascot.environment.NotOnBorder;
+import com.group_finity.mascot.environment.NotOnVisibleBorder;
 import com.group_finity.mascot.environment.FloorCeiling;
 import com.group_finity.mascot.environment.Wall;
 
@@ -83,52 +83,46 @@ public abstract class BorderedAction extends ActionBase {
 	@Override
 	public boolean hasNext() throws VariableException {
 		Point p = new Point();
-		if (BORDERTYPE_CEILING.equals(borderType) && (getEnvironment().getCeiling() instanceof NotOnBorder)) {
+		if (BORDERTYPE_CEILING.equals(borderType)) {
 			p = getMascot().getAnchor();
-			for (int i=2;i>0;i--) {
+				for (int i=2;i>0;i--) {
 				int x = p.x;
 				int y = p.y;
 				getMascot().setAnchor(new Point(x+i,y));
-				if (getEnvironment().getWall() instanceof Wall) return false;
+				if (getEnvironment().getCeiling() instanceof NotOnVisibleBorder) return false;
 				if (i == 0) continue;
 				getMascot().setAnchor(new Point(x-i,y));
-				if (getEnvironment().getWall() instanceof Wall) return false;
+				if (getEnvironment().getCeiling() instanceof NotOnVisibleBorder) return false;
 			}
 			getMascot().setAnchor(p);
 		}
-		if (BORDERTYPE_WALL.equals(borderType) && (getEnvironment().getWall() instanceof NotOnBorder)) {
+		if (BORDERTYPE_WALL.equals(borderType)) {
 			p = getMascot().getAnchor();
-			for (int i=2;i>0;i--) {
+				for (int i=2;i>0;i--) {
 				int x = p.x;
 				int y = p.y;
-				getMascot().setAnchor(new Point(x+i,y));
-				if ((getEnvironment().getCeiling() instanceof FloorCeiling) || (getEnvironment().getFloor() instanceof FloorCeiling)) return false;
+				getMascot().setAnchor(new Point(x,y+i));
+				if (getEnvironment().getWall() instanceof NotOnVisibleBorder) return false;
 				if (i == 0) continue;
-				getMascot().setAnchor(new Point(x-i,y));
-				if ((getEnvironment().getCeiling() instanceof FloorCeiling) || (getEnvironment().getFloor() instanceof FloorCeiling)) return false;
+				getMascot().setAnchor(new Point(x,y+i));
+				if (getEnvironment().getWall() instanceof NotOnVisibleBorder) return false;
 			}
 			getMascot().setAnchor(p);
 		}
-		if (BORDERTYPE_FLOOR.equals(borderType) && (getEnvironment().getFloor() instanceof NotOnBorder)) {
+		if (BORDERTYPE_FLOOR.equals(borderType)) {
 			p = getMascot().getAnchor();
-			for (int i=2;i>0;i--) {
+				for (int i=2;i>0;i--) {
 				int x = p.x;
 				int y = p.y;
 				getMascot().setAnchor(new Point(x+i,y));
-				if (getEnvironment().getWall() instanceof Wall) return false;
+				if (getEnvironment().getFloor() instanceof NotOnVisibleBorder) return false;
 				if (i == 0) continue;
 				getMascot().setAnchor(new Point(x-i,y));
-				if (getEnvironment().getWall() instanceof Wall) return false;
+				if (getEnvironment().getFloor() instanceof NotOnVisibleBorder) return false;
 			}
 			getMascot().setAnchor(p);
 		}
 		return super.hasNext();
-	}
-			
-
-
-	private String getName() throws VariableException {
-		return this.eval("名前", String.class, null);
 	}
 
 }

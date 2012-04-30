@@ -47,6 +47,7 @@ public class Area {
 
 	public Area() {
 		this.windowID = 0;
+		this.set(new Rectangle(-1,-1,0,0));
 	}
 
 	public boolean isVisible() {

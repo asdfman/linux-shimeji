@@ -65,10 +65,6 @@ public abstract class Environment {
 			screenRects.put(gd.getIDstring(), gd.getDefaultConfiguration().getBounds());
 			virtualBounds = virtualBounds.union(gd.getDefaultConfiguration().getBounds());
 		}  
-/*		Rectangle r = new Rectangle(0,0,1920,1053);
-		screenRects.put(":0.0",r);
-		r = new Rectangle(1920,0,1680,1050);
-		screenRects.put(":0.1",r); */
 		Environment.screenRects = screenRects;
 		screenRect = virtualBounds;
 

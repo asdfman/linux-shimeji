@@ -47,6 +47,7 @@ public class BehaviorBuilder {
 	// Conversion to multiwindow environment checks
 	// Also set IE throw frequency to 0
 		if (name.contains("投げる")) frequency = 0;
+		if (name.equals("落下する")) frequency = 1;
 		if (!name.contains("に飛びつく")) {
 			if (conditions != null) {
 				for (int i=0;i<conditions.size();i++) {

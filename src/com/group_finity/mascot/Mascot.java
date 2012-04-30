@@ -102,7 +102,7 @@ public class Mascot {
 
 		// 常に最善面に表示
 		getWindow().asJWindow().setAlwaysOnTop(true);
-		getWindow().asJWindow().setBounds(0,0,128,128);
+		//getWindow().asJWindow().setBounds(0,0,128,128);
 
 		// マウスハンドラを登録
 		getWindow().asJWindow().addMouseListener(new MascotEventHandler(this));
@@ -236,7 +236,7 @@ public class Mascot {
 			if (this.curFC != null) {
 				this.curIE = curFC.getArea();
 			} else {
-				this.curIE = new Area(0);
+				this.curIE = new Area();
 			}
 		}
 		if (!temp.equals(curIE)) {
