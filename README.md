@@ -9,6 +9,10 @@ I appreciate any bug reports or suggestions. Use the issue tracker here or conta
 
 Changelog
 =========
+v1.04
+- Window layering detection.
+- Fixed multi monitor behavior
+
 v1.03
 - Complete remakes of the window state/type handling. AwesomeWM-users should have no more issues.
 - A conversion script for Shimeji-EE configurations is now included.
