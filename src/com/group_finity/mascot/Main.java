@@ -70,12 +70,9 @@ public class Main {
 		loadConfiguration();
 
 		// トレイアイコンを作成する
-		try {
+		if (SystemTray.isSupported()) {
 			createTrayIcon();
-		} catch (Exception e) {
-			System.out.println("System tray not supported");
 		}
-
 
 		// しめじを一匹作成する
 		createMascot();
@@ -202,7 +199,7 @@ public class Main {
 			exit();
 
 		} catch (final AWTException e) {
-			log.log(Level.SEVERE, "トレイアイコンの作成に失敗", e);
+//			log.log(Level.SEVERE, "トレイアイコンの作成に失敗", e);
 			MascotEventHandler.setShowSystemTrayMenu(true);
 			getManager().setExitOnLastRemoved(true);
 		}

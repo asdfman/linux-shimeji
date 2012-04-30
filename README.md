@@ -33,7 +33,7 @@ Tested with both OpenJDK 6 and SunJDK 6 JRE's. There were some issues on Gnome a
 Usage
 ========
 Obtain the repository :
-git clone https://github.com/asdfman666/linux-shimeji.git OR download a zip archive on the github page
+git clone https://github.com/asdfman/linux-shimeji.git OR download a zip archive on the github page
 
 To run, execute launch.sh in the project root directory. (eg. ./launch.sh)
 
