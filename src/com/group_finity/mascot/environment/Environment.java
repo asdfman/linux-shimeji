@@ -19,6 +19,8 @@ public abstract class Environment {
 
 	public abstract int getDockValue();
 
+	public abstract ArrayList<Number> getVisible();
+
 	public void moveActiveIE(final Point point) {}
 
 	public void restoreIE() {}

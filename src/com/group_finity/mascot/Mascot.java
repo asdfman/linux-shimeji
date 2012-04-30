@@ -156,10 +156,10 @@ public class Mascot {
 					getWindow().asJWindow().setVisible(false);
 				}
 			}
-			if (time == 2 || time == 20 || time == 100) {
+			if (time == 2 || time == 30) {
 				getWindow().setToDock(environment.getDockValue());
 			}
-			if (time == 3 || time == 20 || time == 100) {
+			if (time == 3 || time == 30) {
 				getWindow().asJWindow().setVisible(false);
 			}
 		}

@@ -3,6 +3,8 @@ package com.group_finity.mascot.environment;
 import java.awt.Rectangle;
 import java.util.Hashtable;
 import com.group_finity.mascot.Mascot;
+import java.util.Vector;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Area {
@@ -191,7 +193,7 @@ public class Area {
 		while (temp.hasNext()) {
 			temp.next().move(x,y);
 		}
-	}
+		}
 
 	public void ejectMascots() {
 		Iterator<Mascot> temp = this.mascotsOnWindow.values().iterator();

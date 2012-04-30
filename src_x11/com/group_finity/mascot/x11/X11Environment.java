@@ -1,6 +1,8 @@
 package com.group_finity.mascot.x11;
 
 import java.awt.Rectangle;
+import java.awt.Point;
+import java.util.Vector;
 import jnacontrib.x11.api.X.Display;
 import jnacontrib.x11.api.X.X11Exception;
 import jnacontrib.x11.api.X.Window;
@@ -51,6 +53,7 @@ class X11Environment extends Environment {
 // Storage for Window ID's, only used for comparison when removing 
 // user-terminated windows
 	private ArrayList<Number> curActiveWin = new ArrayList<Number>();
+	private ArrayList<Number> curVisibleWin = new ArrayList<Number>();
 
 // Storage for values of certain state/type atoms on the current display
 	private ArrayList<Number> badStateList = new ArrayList<Number>();
@@ -129,7 +132,10 @@ class X11Environment extends Environment {
 		int x,y,w,h,id,curDesktop = 0;
 		Rectangle r = new Rectangle();
 		Area a = new Area();
-		if (cleanUp) curActiveWin = new ArrayList<Number>();
+		if (curVisibleWin != null && cleanUp) curVisibleWin.clear();
+		if (cleanUp) {
+			curActiveWin = new ArrayList<Number>();
+		}
 		if (display == null) return;
 		try {
 		// Retrieve all windows from the X Display
@@ -162,12 +168,14 @@ class X11Environment extends Environment {
 									IE.get(id).setVisible(false);
 								} else {
 									IE.get(id).setVisible(true);
+									curVisibleWin.add(id);
 								}
 							} else {
 								if (badDesktop||badState) {
 									IE.get(id).setVisible(false);
 								} else {
 									IE.get(id).setVisible(true);
+									curVisibleWin.add(id);
 								}
 							}
 						}
@@ -254,6 +262,10 @@ class X11Environment extends Environment {
 
 	public int getDockValue() {
 		return dockValue;
+	}
+
+	public ArrayList<Number> getVisible() {
+		return this.curVisibleWin;
 	}
 
 	@Override

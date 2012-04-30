@@ -1,7 +1,9 @@
 package com.group_finity.mascot.environment;
 
 import java.awt.Point;
+import java.awt.Rectangle;
 
+import java.util.Vector;
 import com.group_finity.mascot.Mascot;
 import com.group_finity.mascot.NativeFactory;
 import java.util.ArrayList;
@@ -68,12 +70,21 @@ public class MascotEnvironment {
         return impl.getIE();
     }
 
+	public ArrayList<Number> getVisible() {
+		return impl.getVisible();
+	}
+
 	public Border getCeiling() {
 		return getCeiling(false);
 	}
+
 	public Border getCeiling(boolean ignoreSeparator) {
 		if (getIE().onBottom(mascot.getAnchor())) {
 			FloorCeiling fc = getIE().getBottom(mascot.getAnchor());
+			if (!checkLayering(fc.getArea())) {
+				mascot.setCurFC(null);
+				return NotOnBorder.INSTANCE;
+			}
 			mascot.setCurFC(fc);
 			return fc;
 		}
@@ -107,6 +118,10 @@ public class MascotEnvironment {
 	public Border getFloor(boolean ignoreSeparator) {
 		if (getIE().onTop(mascot.getAnchor())) {
 			FloorCeiling fc = getIE().getTop(mascot.getAnchor());
+			if (!checkLayering(fc.getArea())) {
+				mascot.setCurFC(null);
+				return NotOnBorder.INSTANCE;
+			}
 			if (currentWorkArea == null) currentWorkArea = impl.getWorkArea();
 		// Don't let the mascot get footing on any window ceiling within 64px
 		// of the top of the screen.
@@ -151,8 +166,13 @@ public class MascotEnvironment {
 		}
 		if ( mascot.isLookRight()) {
 			if (getIE().onLeft(mascot.getAnchor())) {
-				mascot.setCurW(getIE().getLeft(mascot.getAnchor()));
-				return getIE().getLeft(mascot.getAnchor());
+				Wall w = getIE().getLeft(mascot.getAnchor());
+				if (!checkLayering(w.getArea())) {
+					mascot.setCurW(null);
+					return NotOnBorder.INSTANCE;
+				}
+				mascot.setCurW(w);
+				return w;
 			}
 
 			if ( getWorkArea().getRightBorder().isOn(mascot.getAnchor()) ) {
@@ -164,8 +184,13 @@ public class MascotEnvironment {
 			
 		} else {
 			if (getIE().onRight(mascot.getAnchor())) {
-				mascot.setCurW(getIE().getRight(mascot.getAnchor()));
-				return getIE().getRight(mascot.getAnchor());
+				Wall w = getIE().getRight(mascot.getAnchor());
+				if (!checkLayering(w.getArea())) {
+					mascot.setCurW(null);
+					return NotOnBorder.INSTANCE;
+				}
+				mascot.setCurW(w);
+				return w;
 			}
 
 			if ( getWorkArea().getLeftBorder().isOn(mascot.getAnchor()) ) {
@@ -198,4 +223,32 @@ public class MascotEnvironment {
 	public int getDockValue() {
 		return impl.getDockValue();
 	}
+
+	private boolean checkLayering(Area b) {
+		ArrayList<Number> id = getVisible();
+		Vector<Rectangle> rects = new Vector<Rectangle>(id.size());
+		for (Number n : id) {
+			rects.add(getIE().get(n).toRectangle());
+		}
+		Rectangle r = b.toRectangle();
+		int index = 0;
+		for (Rectangle rect : rects) {
+			if (r.equals(rect)) {
+				index = rects.indexOf(rect)+1;
+			}
+		}
+		for (int i = index;i<rects.size();i++) {
+			Rectangle rect = rects.get(i);
+			if (r.intersects(rect)) {
+				Rectangle isect = r.intersection(rect);
+				isect.setSize((int)isect.getWidth()+1,(int)isect.getHeight()+128);
+				if (isect.contains(mascot.getAnchor())) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+		
 }

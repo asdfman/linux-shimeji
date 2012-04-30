@@ -101,6 +101,26 @@ public class X {
             }
         }
 
+		public void getStackingOrder() {
+			X11.WindowByReference root = new X11.WindowByReference();
+			X11.WindowByReference parent = new X11.WindowByReference();
+			PointerByReference children = new PointerByReference();
+			IntByReference childCount = new IntByReference();
+			x11.XQueryTree(this.getX11Display(), this.getRootWindow().getX11Window(), root, parent, children, childCount);
+			Pointer ret_prop = children.getValue();
+			int ret_nitems = childCount.getValue();
+
+			int length = Math.min(ret_nitems * 8, MAX_PROPERTY_VALUE_LEN);
+			System.out.println(ret_prop);
+			byte[] ret = ret_prop.getByteArray(0, length);
+			//System.out.println(root);
+			//System.out.println(parent);
+			//System.out.println(childCount);
+			for (byte b : ret) {
+				System.out.println(b);
+			}
+		}
+
         /**
          * Closes the display.
          */
@@ -189,7 +209,7 @@ public class X {
             Window rootWindow = getRootWindow();
 
             try {
-                bytes = rootWindow.getProperty(X11.XA_WINDOW, "_NET_CLIENT_LIST");
+                bytes = rootWindow.getProperty(X11.XA_WINDOW, "_NET_CLIENT_LIST_STACKING");
             } catch (X11Exception e) {
                 try {
                     bytes = rootWindow.getProperty(X11.XA_CARDINAL, "_WIN_CLIENT_LIST");

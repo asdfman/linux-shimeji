@@ -60,7 +60,7 @@ public class Main {
 	private final Configuration configuration = new Configuration();
 
 	public static void main(final String[] args) {
-
+		System.setProperty("jna.nosys", "true");
 		getInstance().run();
 	}
 

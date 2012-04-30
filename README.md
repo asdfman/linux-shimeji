@@ -57,7 +57,7 @@ You can find thousands on www.deviantart.com and www.pixiv.net (tag: しめじ).
 
 To navigate your way through the .xml files more comfortably, I recommend using an English version of the file from the [Shimeji-EE project](http://code.google.com/p/shimeji-ee/) project as a roadmap. 
 
-A conversion file for English .xml files used in the EE-version is included and any ShimejiEE mascot can be made fully functional with this version. Make sure you use a Japanese Mascot.xsd XML-schema after the conversion, do not replace it with the English one. The filenames that are read by this version are the same as in the current official Shimeji, 'Actions.xml' and 'Behavior.xml'. Keep in mind that all images should go into the 'img', no subdirectories inside will be read, same goes for configurations and the 'conf' directory.
+A conversion file for English .xml files used in the EE-version is included and any ShimejiEE mascot can be made fully functional with this version. Make sure you use a Japanese Mascot.xsd XML-schema after the conversion, do not replace it with the English one. The filenames that are read by this version are the same as in the current official Shimeji, 'Actions.xml' and 'Behavior.xml'. Keep in mind that all images should go into the 'img' directory, no subdirectories inside will be read, same goes for configurations and the 'conf' directory.
 
 You will find 'conv.sed' in the 'conf' directory. You can also find it separately [here](http://gist.github.com/2497639).
 

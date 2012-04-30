@@ -5,6 +5,7 @@ import java.awt.Point;
 import com.group_finity.mascot.environment.Area;
 import com.group_finity.mascot.environment.WindowContainer;
 import com.group_finity.mascot.environment.Environment;
+import java.util.ArrayList;
 
 
 /**
@@ -15,6 +16,7 @@ class GenericEnvironment extends Environment {
     private static Area activeIE;
 	private static WindowContainer IE;
 	private static int dockValue;
+	private static ArrayList<Number> curVisibleWin;
 
 	@Override
 	public void tick() {
@@ -44,6 +46,11 @@ class GenericEnvironment extends Environment {
 	@Override
 	public WindowContainer getIE() {
 		return this.IE;
+	}
+
+	@Override
+	public ArrayList<Number> getVisible() {
+		return this.curVisibleWin;
 	}
 
 	@Override

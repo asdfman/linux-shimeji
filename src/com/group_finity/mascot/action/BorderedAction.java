@@ -10,6 +10,10 @@ import com.group_finity.mascot.environment.Border;
 import com.group_finity.mascot.exception.LostGroundException;
 import com.group_finity.mascot.exception.VariableException;
 import com.group_finity.mascot.script.VariableMap;
+import com.group_finity.mascot.environment.NotOnBorder;
+import com.group_finity.mascot.environment.FloorCeiling;
+import com.group_finity.mascot.environment.Wall;
+
 
 /**
  * 枠にくっついて動くアクションの基底クラス.
@@ -31,6 +35,10 @@ public abstract class BorderedAction extends ActionBase {
 
 	private Border border;
 
+	private int cnt;
+
+	private String borderType;
+
 	public BorderedAction(final List<Animation> animations, final VariableMap params) {
 		super(animations, params);
 	}
@@ -39,7 +47,7 @@ public abstract class BorderedAction extends ActionBase {
 	public void init(final Mascot mascot) throws VariableException {
 		super.init(mascot);
 
-		final String borderType = getBorderType();
+		borderType = getBorderType();
 
 		if (BORDERTYPE_CEILING.equals(borderType)) {
 			this.setBorder(getEnvironment().getCeiling());
@@ -48,7 +56,6 @@ public abstract class BorderedAction extends ActionBase {
 		} else if (BORDERTYPE_FLOOR.equals(borderType)) {
 			this.setBorder(getEnvironment().getFloor());
 		}
-
 
 	}
 
@@ -60,7 +67,7 @@ public abstract class BorderedAction extends ActionBase {
 			getMascot().setAnchor(getBorder().move(getMascot().getAnchor()));
 		}
 	}
-
+	
 	private String getBorderType() throws VariableException {
 		return eval(PARAMETER_BORDERTYPE, String.class, DEFAULT_BORDERTYPE);
 	}
@@ -73,6 +80,55 @@ public abstract class BorderedAction extends ActionBase {
 		return this.border;
 	}
 
+	@Override
+	public boolean hasNext() throws VariableException {
+		Point p = new Point();
+		if (BORDERTYPE_CEILING.equals(borderType) && (getEnvironment().getCeiling() instanceof NotOnBorder)) {
+			p = getMascot().getAnchor();
+			for (int i=2;i>0;i--) {
+				int x = p.x;
+				int y = p.y;
+				getMascot().setAnchor(new Point(x+i,y));
+				if (getEnvironment().getWall() instanceof Wall) return false;
+				if (i == 0) continue;
+				getMascot().setAnchor(new Point(x-i,y));
+				if (getEnvironment().getWall() instanceof Wall) return false;
+			}
+			getMascot().setAnchor(p);
+		}
+		if (BORDERTYPE_WALL.equals(borderType) && (getEnvironment().getWall() instanceof NotOnBorder)) {
+			p = getMascot().getAnchor();
+			for (int i=2;i>0;i--) {
+				int x = p.x;
+				int y = p.y;
+				getMascot().setAnchor(new Point(x+i,y));
+				if ((getEnvironment().getCeiling() instanceof FloorCeiling) || (getEnvironment().getFloor() instanceof FloorCeiling)) return false;
+				if (i == 0) continue;
+				getMascot().setAnchor(new Point(x-i,y));
+				if ((getEnvironment().getCeiling() instanceof FloorCeiling) || (getEnvironment().getFloor() instanceof FloorCeiling)) return false;
+			}
+			getMascot().setAnchor(p);
+		}
+		if (BORDERTYPE_FLOOR.equals(borderType) && (getEnvironment().getFloor() instanceof NotOnBorder)) {
+			p = getMascot().getAnchor();
+			for (int i=2;i>0;i--) {
+				int x = p.x;
+				int y = p.y;
+				getMascot().setAnchor(new Point(x+i,y));
+				if (getEnvironment().getWall() instanceof Wall) return false;
+				if (i == 0) continue;
+				getMascot().setAnchor(new Point(x-i,y));
+				if (getEnvironment().getWall() instanceof Wall) return false;
+			}
+			getMascot().setAnchor(p);
+		}
+		return super.hasNext();
+	}
+			
 
+
+	private String getName() throws VariableException {
+		return this.eval("名前", String.class, null);
+	}
 
 }
