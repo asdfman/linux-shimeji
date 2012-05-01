@@ -249,15 +249,13 @@ class X11Environment extends Environment {
 // getRandomIE() - assign a new randomly selected activeIE
 // for jump action targeting.
 	private void getRandomIE() {
-		if (IE.size() == 0) return;
-		int max = RNG.nextInt(IE.size());
-		Iterator<Number> iter = IE.keySet().iterator();
-		int i = 0;
-		while (i<max) {
-			iter.next();
-			i++;
+		ArrayList<Area> visibleWin = new ArrayList<Area>();
+		if (curVisibleWin == null) return;
+		for (Number n : curVisibleWin) {
+			visibleWin.add(IE.get(n));
 		}
-		activeIE = IE.get(iter.next());
+		if (visibleWin.size() == 0) return;
+		activeIE = visibleWin.get(RNG.nextInt(visibleWin.size()));
 	}
 
 	public int getDockValue() {

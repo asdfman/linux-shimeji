@@ -104,7 +104,7 @@ public abstract class BorderedAction extends ActionBase {
 				getMascot().setAnchor(new Point(x,y+i));
 				if (getEnvironment().getWall() instanceof NotOnVisibleBorder) return false;
 				if (i == 0) continue;
-				getMascot().setAnchor(new Point(x,y+i));
+				getMascot().setAnchor(new Point(x,y-i));
 				if (getEnvironment().getWall() instanceof NotOnVisibleBorder) return false;
 			}
 			getMascot().setAnchor(p);

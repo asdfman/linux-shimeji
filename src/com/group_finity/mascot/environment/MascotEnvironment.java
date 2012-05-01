@@ -56,6 +56,10 @@ public class MascotEnvironment {
 				return currentWorkArea;
 			}
 		}
+		if (impl.getScreens().iterator().hasNext()) {
+			currentWorkArea = impl.getScreens().iterator().next();
+			return currentWorkArea;
+		}
 
 		currentWorkArea = impl.getWorkArea();
 		return currentWorkArea;
@@ -241,7 +245,7 @@ public class MascotEnvironment {
 			Rectangle rect = rects.get(i);
 			if (r.intersects(rect)) {
 				Rectangle isect = r.intersection(rect);
-				isect.setRect(isect.x-1,isect.y,isect.getWidth()+2,isect.getHeight()+128);
+				isect.setRect(isect.x,isect.y,isect.getWidth()+1,isect.getHeight()+2);
 				if (isect.contains(mascot.getAnchor())) {
 					return false;
 				}
