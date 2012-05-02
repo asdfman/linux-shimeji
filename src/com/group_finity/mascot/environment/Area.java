@@ -35,11 +35,7 @@ public class Area {
 
 	private final FloorCeiling bottomBorder = new FloorCeiling(this, true);
 
-	private Hashtable<Number,Mascot> mascotsOnWindow = new Hashtable<Number,Mascot>();
-
 	private final long windowID;
-
-	private boolean hasMoved;
 
 	public Area(long id) {
 		this.windowID = id;
@@ -173,34 +169,8 @@ public class Area {
 		return "Area [left=" + left + ", top=" + top + ", right=" + right + ", bottom=" + bottom + "]";
 	}
 
-	public void addMascot(Mascot m) {
-		this.mascotsOnWindow.put(m.getID(),m);
-	}
-
-	public void removeMascot(int id) {
-		this.mascotsOnWindow.remove(id);
-	}
-	
 	public long getID() {
 		return this.windowID;
-	}
-
-	public void setMoved(boolean b) {
-		this.hasMoved = b;
-	}
-
-	public void moveMascots(int x,int y) {
-		Iterator<Mascot> temp = this.mascotsOnWindow.values().iterator();
-		while (temp.hasNext()) {
-			temp.next().move(x,y);
-		}
-		}
-
-	public void ejectMascots() {
-		Iterator<Mascot> temp = this.mascotsOnWindow.values().iterator();
-		while (temp.hasNext()) {
-			temp.next().move(1,1);
-		}
 	}
 
 }

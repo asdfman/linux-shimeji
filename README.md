@@ -9,6 +9,10 @@ I appreciate any bug reports or suggestions. Use the issue tracker here or conta
 
 Changelog
 =========
+v1.05
+- Greatly reduced CPU usage (noticeable with few active mascots)
+- Remake of multi monitor behavior 
+
 v1.04
 - Window layering detection.
 - Fixed multi monitor behavior

@@ -85,13 +85,15 @@ public abstract class BorderedAction extends ActionBase {
 		Point p = new Point();
 		if (BORDERTYPE_CEILING.equals(borderType)) {
 			p = getMascot().getAnchor();
-				for (int i=2;i>0;i--) {
+				for (int i=2;i>1;i--) {
 				int x = p.x;
 				int y = p.y;
 				getMascot().setAnchor(new Point(x+i,y));
 				if (getEnvironment().getCeiling() instanceof NotOnVisibleBorder) return false;
-				if (i == 0) continue;
+				if (getMascot().isLookRight() && (getEnvironment().getWorkArea().getLeft() == getMascot().getAnchor().getX())) return false;
+				//if (i == 0) continue;
 				getMascot().setAnchor(new Point(x-i,y));
+				if (!getMascot().isLookRight() && getEnvironment().getWorkArea().getLeft() == (getMascot().getAnchor().getX())) return false;
 				if (getEnvironment().getCeiling() instanceof NotOnVisibleBorder) return false;
 			}
 			getMascot().setAnchor(p);

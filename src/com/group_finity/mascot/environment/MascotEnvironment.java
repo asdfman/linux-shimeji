@@ -7,6 +7,7 @@ import java.util.Vector;
 import com.group_finity.mascot.Mascot;
 import com.group_finity.mascot.NativeFactory;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class MascotEnvironment {
 
@@ -14,10 +15,13 @@ public class MascotEnvironment {
 
 	private Mascot mascot;
 
+	private int numScreens;
+
 	private Area currentWorkArea;
 	
 	public MascotEnvironment(Mascot mascot) {
 		this.mascot = mascot;
+		this.numScreens = getComplexScreen().getAreas().size();
 	}
 
 	/**
@@ -25,6 +29,12 @@ public class MascotEnvironment {
 	 * @return
 	 */
 	public Area getWorkArea() {
+		if (numScreens == 1) {
+			if (currentWorkArea == null) {
+				currentWorkArea = impl.getWorkArea();
+			}
+			return currentWorkArea;
+		}
 
 		//if ( currentWorkArea!=null ) {
 			 //NOTE Windows マルチモニタ対応 Windowsのワークエリアはメインのスクリーンより小さい。
@@ -50,12 +60,34 @@ public class MascotEnvironment {
 		//}
 
 		 //各モニタに含まれているか調べる
-		for( Area area: impl.getScreens() ) {
-			if ( area.contains(mascot.getAnchor().x, mascot.getAnchor().y) ) {
-				currentWorkArea = area;
+		if (currentWorkArea != null) {
+			if (currentWorkArea.getTopBorder().isOn(mascot.getAnchor())) {
 				return currentWorkArea;
 			}
 		}
+		int cnt=0;
+		Area a = new Area();
+		for( Area area: impl.getScreens() ) {
+			if ( area.contains(mascot.getAnchor().x, mascot.getAnchor().y) ) {
+				cnt++;
+				a = area;
+			}
+		}
+		if (cnt == 1) {
+			currentWorkArea = a;
+			return currentWorkArea;
+		} else if (cnt == 2) {
+			Iterator<Area> iter = impl.getScreens().iterator();
+			Area temp = iter.next();
+			if (!mascot.isLookRight()) {
+				currentWorkArea = temp;
+				return currentWorkArea;
+			} else {
+				currentWorkArea = iter.next();
+				return currentWorkArea;
+			}
+		}
+
 		if (impl.getScreens().iterator().hasNext()) {
 			currentWorkArea = impl.getScreens().iterator().next();
 			return currentWorkArea;
@@ -158,8 +190,8 @@ public class MascotEnvironment {
  * current Wall attribute of each mascot.
  */
 	public Border getWall(boolean ignoreSeparator) {
-	// Don't let the mascot hold onto window walls when within 64px of
-	// the top of the screen.
+	 //Don't let the mascot hold onto window walls when within 64px of
+	 //the top of the screen.
 		if ( mascot.getAnchor().getY() <= getWorkArea().getTop()+64) { 
 			Point p = mascot.getAnchor();
 			if (mascot.onBorder()) {
@@ -180,7 +212,8 @@ public class MascotEnvironment {
 			}
 
 			if ( getWorkArea().getRightBorder().isOn(mascot.getAnchor()) ) {
-				if ( !ignoreSeparator || isScreenLeftRight() ) {
+				//if ( !ignoreSeparator || isScreenLeftRight() ) {
+				  if (isScreenLeftRight(ignoreSeparator)) {
 					mascot.setCurW(null);
 					return getWorkArea().getRightBorder();
 				}
@@ -198,7 +231,8 @@ public class MascotEnvironment {
 			}
 
 			if ( getWorkArea().getLeftBorder().isOn(mascot.getAnchor()) ) {
-				if ( !ignoreSeparator ||isScreenLeftRight() ) {
+				//if ( !ignoreSeparator ||isScreenLeftRight() ) {
+				  if (isScreenLeftRight(ignoreSeparator)) {
 					mascot.setCurW(null);
 					return getWorkArea().getLeftBorder();
 				}
@@ -220,8 +254,8 @@ public class MascotEnvironment {
 		return impl.isScreenTopBottom(mascot.getAnchor());
 	}
 
-	private boolean isScreenLeftRight() {
-		return impl.isScreenLeftRight(mascot.getAnchor());
+	private boolean isScreenLeftRight(boolean b) {
+		return impl.isScreenLeftRight(mascot.getAnchor(), b);
 	}
 
 	public int getDockValue() {

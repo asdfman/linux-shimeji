@@ -93,6 +93,7 @@ public class Mascot {
 	/**
 	 * マスコットの表示環境.
 	 */
+	
 	private MascotEnvironment environment = new MascotEnvironment(this);
 
 	public Mascot() {
@@ -113,7 +114,6 @@ public class Mascot {
 	public String toString() {
 		return "マスコット" + this.id;
 	}
-
 	void tick() {
 	// Update the current IE window the mascot is attached to based on floor/wall checks
 		setCurIE();
@@ -229,7 +229,7 @@ public class Mascot {
 		this.time = time;
 	}
 	public void setCurIE() {
-		Area temp = curIE;
+		Area temp = new Area();
 		if (this.curW != null) {
 			this.curIE = curW.getArea();
 					} else {
@@ -239,9 +239,9 @@ public class Mascot {
 				this.curIE = new Area();
 			}
 		}
-		if (!temp.equals(curIE)) {
-			temp.removeMascot(this.id);
-			curIE.addMascot(this);
+		if (temp.toRectangle().getWidth() < 5) return;
+		if (temp.toRectangle().toString() != curIE.toRectangle().toString()) {
+			curIE = temp;
 		}
 		
 	}

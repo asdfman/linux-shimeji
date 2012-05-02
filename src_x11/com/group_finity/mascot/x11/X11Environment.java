@@ -33,7 +33,7 @@ class X11Environment extends Environment {
 	public static final Area workArea = new Area();
 
 	private boolean checkTitles = true;
-	private boolean cleanUp, newRandom = false;
+	private boolean newRandom, updateOnNext = false;
 
 // Counter variable used for stuff we want less 
 // frequently than each tick. Initialize at 400 to
@@ -73,6 +73,7 @@ class X11Environment extends Environment {
 		badTypeList.add(Integer.decode(display.getAtom("_NET_WM_WINDOW_TYPE_MENU").toString()));
 		badTypeList.add(Integer.decode(display.getAtom("_NET_WM_WINDOW_TYPE_SPLASH").toString()));
 		badTypeList.add(Integer.decode(display.getAtom("_NET_WM_WINDOW_TYPE_DIALOG").toString()));
+		badTypeList.add(Integer.decode(display.getAtom("_NET_WM_WINDOW_TYPE_DESKTOP").toString()));
 		try {
 			FileInputStream fstream = new FileInputStream("window.conf");
 			DataInputStream in = new DataInputStream(fstream);
@@ -114,15 +115,13 @@ class X11Environment extends Environment {
 	@Override
 	public void tick() {
 		super.tick();
-		update();
+		if (q%5==0 || updateOnNext) update();
 	// New jump action target window every 1000 ticks
 		if (q == 1000) {
 			getRandomIE();
 			q = 0;
 		}
 		q++;
-	// Perform cleanup of user-terminated windows every 5th tick
-		if (q%5==0) cleanUp = true;
 	}
 
 // update() - window handling, executed each tick
@@ -132,15 +131,14 @@ class X11Environment extends Environment {
 		int x,y,w,h,id,curDesktop = 0;
 		Rectangle r = new Rectangle();
 		Area a = new Area();
-		if (curVisibleWin != null && cleanUp) curVisibleWin.clear();
-		if (cleanUp) {
-			curActiveWin = new ArrayList<Number>();
-		}
+		if (curVisibleWin != null) curVisibleWin.clear();
+		curActiveWin = new ArrayList<Number>();
 		if (display == null) return;
+		updateOnNext = false;
 		try {
 		// Retrieve all windows from the X Display
 			allWindows = display.getWindows();
-			if (cleanUp) curDesktop = display.getActiveDesktopNumber();
+			curDesktop = display.getActiveDesktopNumber();
 			uguu:	
 				for (int i=0;i<allWindows.length;i++) {
 				// Break for-loop if the window title does not match config.
@@ -153,75 +151,60 @@ class X11Environment extends Environment {
 					h = allWindows[i].getGeometry().height + hmod;
 					x = allWindows[i].getBounds().x + xoffset;
 					y = allWindows[i].getBounds().y + yoffset;
-				// Check if the window already exists in our container.
 					if (IE.containsKey(id)) {
 						a = IE.get(id);
-					// Set windows on other desktops, minimized windows and windows
-					// with type 'dock' or skip taskbar state set invisible every 5th tick
-						if (cleanUp) {
-							int desktop = allWindows[i].getDesktop();
-							boolean badDesktop = ((desktop != curDesktop)&&(desktop != -1));
-							boolean badState = checkState(allWindows[i].getState());
-							if (!checkTitles) {
-								boolean badType = checkType(allWindows[i].getType());
-								if (badDesktop||badType||badState) {
-									IE.get(id).setVisible(false);
-								} else {
-									IE.get(id).setVisible(true);
-									curVisibleWin.add(id);
-								}
+						int desktop = allWindows[i].getDesktop();
+						boolean badDesktop = ((desktop != curDesktop)&&(desktop != -1));
+						boolean badState = checkState(allWindows[i].getState());
+						if (!checkTitles) {
+							boolean badType = checkType(allWindows[i].getType());
+							if (badDesktop||badType||badState) {
+								IE.get(id).setVisible(false);
 							} else {
-								if (badDesktop||badState) {
-									IE.get(id).setVisible(false);
-								} else {
-									IE.get(id).setVisible(true);
-									curVisibleWin.add(id);
-								}
+								IE.get(id).setVisible(true);
+								curVisibleWin.add(id);
+							}
+						} else {
+							if (badDesktop||badState) {
+								IE.get(id).setVisible(false);
+							} else {
+								IE.get(id).setVisible(true);
+								curVisibleWin.add(id);
 							}
 						}
 						r = a.toRectangle();
 						Rectangle newRect = new Rectangle(x,y,w,h);
-					// Check if the window has been moved. Break for-loop
-					// if it has not.
-						try {
-							if (r.getLocation() == newRect.getLocation()) {
-								if (cleanUp) curActiveWin.add(id);
-								continue uguu;
-							}
-						} catch (Exception e) {}
-					// Window moved, set new dimensions and update entry
+						if (!r.equals(newRect)) {
+							updateOnNext = true;
+						}
 						a.set(newRect);
-						IE.put(id,a);
-						if (cleanUp) curActiveWin.add(id);
+						curActiveWin.add(id);
 						continue uguu;
+					} else {
+						r = new Rectangle(x,y,w,h);
+						a = new Area();
+						a.set(r);
+						a.setVisible(false);
+						IE.put(id,a);
+						curActiveWin.add(id);
 					}
-				// New window, add it to container
-					r = new Rectangle(x,y,w,h);
-					a = new Area();
-					a.set(r);
-					a.setVisible(false);
-					IE.put(id,a);
-					if (cleanUp) curActiveWin.add(id);
 				}
 		} catch (X11Exception e) {}
 	// Remove user-terminated windows from the container every 5th tick
-		if (cleanUp) {
-			Iterator<Number> keys = IE.keySet().iterator();
-			while (keys.hasNext()) {
-				Number i = keys.next();
-				if (!curActiveWin.contains(i)) {
-					IE.get(i).setVisible(false);
-					IE.remove(i);
-					break;
-				}
+		Iterator<Number> keys = IE.keySet().iterator();
+		while (keys.hasNext()) {
+			Number i = keys.next();
+			if (!curActiveWin.contains(i)) {
+				IE.get(i).setVisible(false);
+				IE.remove(i);
+				break;
 			}
-		cleanUp = false;
 		}
 	}
 	
 	private boolean isIE(String titlebar) {
 		for (String s : titles) {
-			if (titlebar.contains(s)) return true;
+			if (titlebar.toLowerCase().contains(s)) return true;
 		}
 		return false;
 	} 
@@ -252,7 +235,7 @@ class X11Environment extends Environment {
 		ArrayList<Area> visibleWin = new ArrayList<Area>();
 		if (curVisibleWin == null) return;
 		for (Number n : curVisibleWin) {
-			visibleWin.add(IE.get(n));
+			if (n != null) visibleWin.add(IE.get(n));
 		}
 		if (visibleWin.size() == 0) return;
 		activeIE = visibleWin.get(RNG.nextInt(visibleWin.size()));

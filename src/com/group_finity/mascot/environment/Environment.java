@@ -146,20 +146,19 @@ public abstract class Environment {
 		return count==1;
 	}
 
-	public boolean isScreenLeftRight(final Point location) {
+	public boolean isScreenLeftRight(final Point location, boolean ignoreSep) {
 
 
 		int count = 0;
-
 		for( Area area: getScreens() ) {
 			if ( area.getLeftBorder().isOn(location)) {
 				++count;
-			}
+			} 
 			if ( area.getRightBorder().isOn(location)) {
 				++count;
 			}
 		}
-
+		if (count == 2 && !ignoreSep) return true;
 		if ( count==0 ) {
 			if ( getWorkArea().getLeftBorder().isOn(location) ) {
 				return true;
