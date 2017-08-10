@@ -8,7 +8,7 @@ I appreciate any bug reports or suggestions. Use the issue tracker here or conta
 
 Additions by Vertmo
 ===================
-You can now add multiple Shimejis in the Shimejis folder (add the conf and img folders of the Shimeji inside the Shimejis/*yourshimejiname*), and start them using ./launch.sh *yourshimejiname*
+You can now add multiple Shimejis in the Shimejis directory (add the conf and img directories of the Shimeji inside the Shimejis/*yourshimejiname* directory), and start them using ./launch.sh *yourshimejiname*
 
 Changelog
 =========
