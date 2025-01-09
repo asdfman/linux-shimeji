@@ -6,3 +6,5 @@
 bin/
 conf2/
 img2/
+result*
+.direnv

@@ -10,7 +10,7 @@
   
   <target name="compile" depends="clean">
     <mkdir dir="classes" />
-    <javac destdir="classes" target="6" optimize="yes" encoding="UTF-8" includeantruntime="false" debug="true" debuglevel="lines, vars, source">
+    <javac destdir="classes" source="6" target="6" optimize="yes" encoding="UTF-8" includeantruntime="false" debug="true" debuglevel="lines,vars,source">
       <src path="src"/>
       <src path="src_generic"/>
       <src path="src_x11"/>
@@ -23,7 +23,4 @@
   <target name="jar" depends="compile">
     <jar destfile="Shimeji.jar" basedir="classes" manifest="MANIFEST.MF" />
   </target>
-  
 </project>
-
-
