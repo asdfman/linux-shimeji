@@ -1,0 +1,15 @@
+==== NOTES ====
+
+Sorry, I just ran this through Google Translate, but I think the message is clear enough.  This original license still holds.  When hosting this project on Google Projects, I needed to choose a license and it seems like the New BSD License fit it perfectly.
+
+==== END NOTE ====
+
+Copyright (c) 2009 Yuki Yamada
+
+This software is "as is" basis, and whether in explicit or implicit, is provided without warranty of any kind. For any damages resulting from the use of this software, the authors assume no liability.
+
+Unless subject to the following restrictions, including commercial applications, using this software for any purpose, to allow everyone to modify and redistribute it freely.
+
+1. To misstatements about the origin of this software must not be. Claimed to have created the original software, you must not. If you use this software in your product, but I hope you'll put an acknowledgment of the product documentation, but not required.
+2. If you change the source, must clearly indicate that. View that it is false to the original software will not.
+3. From a distribution of the source or remove the display, then you must change the contents of the display.
