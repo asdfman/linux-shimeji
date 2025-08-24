@@ -1,3 +1,11 @@
+2025 - Archived 
+=================
+This program is ancient and requires a legacy Java version, I can't help you with any issues you encounter so use at your own discretion.
+
+I had plans to rewrite the entire program in another language and with proper Wayland support but obtaining the full active window tree with dimensions seems quite impossible in Wayland Gnome/KDE. 
+
+If the Wayland situation changes I'll rewrite this but it is quite grim: Hyprland seems like the only WM that could be supported with a reasonable amount of effort.
+
 ![Shimeji for Linux](http://i.imgur.com/efHyX.png "Shimeji for Linux")
 Shimeji for Linux
 =================
