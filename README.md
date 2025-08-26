@@ -14,6 +14,9 @@ This is a Linux version of the popular desktop mascot program, Shimeji.
 
 I appreciate any bug reports or suggestions. Use the issue tracker here or contact me directly on IRC (Rizon) where I'm called 'asdfman'.
 
+Additions by Vertmo
+===================
+You can now add multiple Shimejis in the Shimejis directory (add the conf and img directories of the Shimeji inside the Shimejis/*yourshimejiname* directory), and start them using ./launch.sh *yourshimejiname*
 
 Changelog
 =========
